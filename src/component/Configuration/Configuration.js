@@ -101,7 +101,7 @@ class Configuration extends Component{
                         </div>
                     </div>
                 </section>
-                <ConfiModel handlehide={this.handlehide} handleshow={this.handleshow}  show={this.state.show} />
+                {/* <ConfiModel handlehide={this.handlehide} handleshow={this.handleshow}  show={this.state.show} /> */}
               </React.Fragment>  
         )
     }

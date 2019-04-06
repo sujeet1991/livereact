@@ -29,7 +29,7 @@ const leftpanel=React.memo(function MyComponent(props){
 						</Link>
 					</li>
 					<li>
-						<Link to="/">
+						<Link to="/LogHistory">
 						 <img src={require('../../assets/images/log-time-history-bg.png')} className="ic-mgt" alt="log time" /><span>View Log Time History</span>
 						</Link>
 					</li>
