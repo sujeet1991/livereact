@@ -24,7 +24,7 @@ const leftpanel=React.memo(function MyComponent(props){
 						</Link>
 					</li>
 					<li>
-						<Link to="/">
+						<Link to="/Logtime">
 						<img src={require('../../assets/images/log-time-bg.png')} className="ic-mgt" alt="log time"/><span>Log Time</span>
 						</Link>
 					</li>

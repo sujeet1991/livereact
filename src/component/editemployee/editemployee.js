@@ -36,7 +36,7 @@ class editemployee extends Component{
                                 <label>Role</label>
                                 <select name="role" className="form-control"  >
                                 <option value="system_admin">System Admin</option>
-                                <option value="project_manager">Project Manager</option>
+                                <option value="project_manager" selected>Project Manager</option>
                                 <option value="employee">Employee</option>
                                 </select>
                                 </div>

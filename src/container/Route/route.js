@@ -4,6 +4,7 @@ import { Route,Switch } from 'react-router-dom'
 import Editemployee from '../../component/editemployee/editemployee';
 import Configuration from '../../component/Configuration/Configuration';
 import LogHistory from '../../component/LogHistory/loghistory';
+import Logtime from '../../component/Logtime/logtime';
 
  class routeMain extends Component {
   render() {
@@ -14,6 +15,7 @@ import LogHistory from '../../component/LogHistory/loghistory';
             <Route path="/Editemployee" component={Editemployee}/>
             <Route path="/Configuration" component={Configuration}/>
             <Route path="/LogHistory" component={LogHistory}/>
+            <Route path="/Logtime" component={Logtime}/>
         </Switch>
       </div>
     )
