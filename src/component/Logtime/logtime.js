@@ -3,6 +3,42 @@ import {Link} from 'react-router-dom';
 import LogDisplay from './logdisplay';
 
 class logtime extends Component {
+	state={
+		apidata:[]
+	}
+
+	componentWillMount(){
+		var today = new Date();
+		var dd= today.getDate();
+		var mm= today.getMonth();
+		var yy= today.getFullYear();
+		if(dd<10){
+			dd="0"+dd;
+		}
+		if(mm<10){
+			mm="0"+mm;
+		}
+		var dateapi=yy+"-"+mm+"-"+dd;
+		(async () => {
+			const rawResponse = await fetch('http://7b77680e.ngrok.io/livepages/index.php/api/getLogEntries', {
+				method: 'POST',
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({ "employeeId": 1, "date":dateapi })
+			});
+			const content = await rawResponse.json();
+			console.log(content.logEntry);
+			this.setState({
+				apidata:content.logEntry
+			})
+			
+		})();
+
+	}
+
+
   render() {
     return (
       <React.Fragment>
@@ -17,7 +53,7 @@ class logtime extends Component {
             <div className="row">
                 <div className="col-xs-12">
                     <div className="box">
-                        <h4 class="table-heading">Log Time</h4>
+                        <h4 className="table-heading">Log Time</h4>
 													<div className="logtime-top">
 															<form>
 															<div className="row">
@@ -33,7 +69,7 @@ class logtime extends Component {
 																<div className="col-sm-3">
 																	<div className="form-group">
 																		<label>Role</label> 
-																		<select name="project_state" class="form-control">
+																		<select name="project_state" className="form-control">
 																		<option value="role">Role</option>
 																		<option value="role2">Role2</option>
 																		</select>
@@ -54,7 +90,7 @@ class logtime extends Component {
 															</div>
 															<div className="row">
 																<div className="col-sm-12">
-																<label for="comment">Comments</label>
+																<label htmlFor="comment">Comments</label>
 																<textarea className="form-control" rows="5" name="comments"></textarea>
 																</div>
 															</div>
@@ -66,7 +102,7 @@ class logtime extends Component {
 													</div>
 
 													{/* top */}
-													<LogDisplay/>
+													<LogDisplay apidata={this.state.apidata}/>
 
                     </div>
                 </div>

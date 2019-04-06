@@ -10,34 +10,20 @@ const logdisplay = React.memo(function MyComponent(props){
                     <div className="col-sm-12">
                         <table id="example1" className="table table-bordered table-striped table-responsive dataTable no-footer" role="grid">
 					 <thead>
-					    <tr role="row"><th className="sorting_disabled" rowspan="1" colspan="1">Project Name</th><th className="sorting_disabled" rowspan="1" colspan="1">Role</th><th className="sorting_disabled" rowspan="1" colspan="1">Hours Spent</th><th className="sorting_disabled" rowspan="1" colspan="1">Comments</th></tr>
+                     {props.apidata.length!==0? 
+                        props.apidata.map((curr,index)=>{
+                                return(
+                                  <tr role="row" className="odd" key={index}>
+                                   <td className="sorting_1">{curr.ProjectName}</td>
+                                  <td>{curr.RoleName}</td>
+                                  <td>{curr.TimeSpent}</td>
+                                  <td>{curr.Comments}</td>
+                                </tr> 
+                                )
+                              }): "No Data"}
 					 </thead>
 					 <tbody>
-						
-						
-						
-						
-					 <tr role="row" className="odd">
-						   <td>VP New Interior Design</td>
-						   <td>Senior Designer</td>
-						   <td>10</td>
-						   <td>Designed something new for interiors</td>
-						</tr><tr role="row" className="even">
-						   <td>VP New Interior Design</td>
-						   <td>Senior Designer</td>
-						   <td>10</td>
-						   <td>Designed something new for interiors</td>
-						</tr><tr role="row" className="odd">
-						   <td>VP New Interior Design</td>
-						   <td>Senior Designer</td>
-						   <td>10</td>
-						   <td>Designed something new for interiors</td>
-						</tr><tr role="row" className="even">
-						   <td>VP New Interior Design</td>
-						   <td>Senior Designer</td>
-						   <td>10</td>
-						   <td>Designed something new for interiors</td>
-						</tr></tbody>
+					</tbody>
 				  </table></div></div><div className="row"><div className="col-sm-5"></div><div className="col-sm-7"></div></div></div>
 				  <button type="button" className="btn btn-default fix-button">Submit</button> 
 			   </div>

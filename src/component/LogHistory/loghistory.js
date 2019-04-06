@@ -1,14 +1,91 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
 
+
 export default class loghistory extends Component {
   state={
     month:['January','February','March','April','May','June','July','August','September','October','November','December'],
     year:[2019,2018,2017],
-    days:[1,2,3],
+    days:31,
+    dayactive:"01",
+    yearactive:"2019",
+    monthactive:"01",
+    apidata:[],
+    
   }
+  
+  yearHandler=(e,curryear)=>{
+      this.setState({
+        yearactive:curryear
+      })
+    }
+dayIsMonth=(e,curr,index)=>{
+  var indexMonth=index+1;
+  var date=null;
+  if(indexMonth<10){
+    date="0"+indexMonth;
+  }
+  else{
+    date=indexMonth;
+  }
+  
+  let alldays=new Date(this.state.yearactive,index+1, 0).getDate();
+
+  this.setState({
+    monthactive:date,
+    days:alldays
+  })
+}  
+
+daysrecord=(e,currdate)=>{
+  var currda= null;
+  if(currdate<9){
+    currda="0"+currdate
+  }else{
+    currda=currdate
+  }
+  this.setState({
+    dayactive:currda
+  })
+  this.fetchreacord(this.state.yearactive,this.state.monthactive,currda);
+}
+componentDidMount(){
+  this.fetchreacord(this.state.yearactive,this.state.monthactive,this.state.dayactive);
+}
+
+fetchreacord=(year,month,days)=>{
+  let daterecord=year+"-"+month+"-"+days;
+  (async () => {
+    const rawResponse = await fetch('http://7b77680e.ngrok.io/livepages/index.php/api/getLogEntries', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ "employeeId": 1, "date":daterecord })
+    });
+    const content = await rawResponse.json();
+    console.log(content.logEntry);
+    this.setState({
+      apidata:content.logEntry
+    })
+    
+  })();
+}
+
+
   render() {
-    console.log(this.state.month);
+    let daysloading=[];
+    for(let i=1;i<=this.state.days;i++){
+      if(i<10){
+        daysloading.push(parseInt("0"+i));
+      }else{
+        daysloading.push(i);
+      }
+      
+    }
+   // console.log(daysloading)
+    //console.log(this.state.apidata);
     return (
         <React.Fragment>
         <section className="content-header">
@@ -26,7 +103,7 @@ export default class loghistory extends Component {
                         <ul>
                         {this.state.year.map((curr,index)=>{
                           return(
-                            <li key={index}><Link to="#" className={index===0?'act':null}>{curr}</Link></li>
+                            <li key={index}><Link to="#" onClick={(e)=>this.yearHandler(e,curr)} className={parseInt(this.state.yearactive)===curr?'act':null}>{curr}</Link></li>
                           )
                         })}
                         
@@ -37,7 +114,7 @@ export default class loghistory extends Component {
                         <ul>
                           {this.state.month.map((curr,index)=>{
                             return(
-                              <li key={index}><Link to="#" className={index===0?"act":null}>{curr}</Link></li>
+                              <li key={index}><Link to="#" onClick={(e)=>this.dayIsMonth(e,curr,index)} className={parseInt(this.state.monthactive)===index+1?"act":null}>{curr}</Link></li>
                             )
                           })}
                          
@@ -46,13 +123,14 @@ export default class loghistory extends Component {
                       {/* month */}
                       <div className="log-date">
                         <ul>
-                        {this.state.days.map((curr,index)=>{
-                          return(
-                            <li key={index}><Link to="#" className={index===0?'act':null}>{curr}</Link></li>
-                          )
-                        })}
-                     
-                         
+                          {daysloading.length!==0?daysloading.map((curr,index)=>{
+                            //console.log(curr)
+                            return(
+                            <li key={index}>
+                            <Link to='#' className={parseInt(this.state.dayactive)===curr?'act':null} onClick={(e)=>this.daysrecord(e,curr)}>{curr}</Link>
+                            </li>
+                            )
+                          }):"Loading"}
                         </ul>
                       </div>
                       {/* end log date */}
@@ -68,16 +146,22 @@ export default class loghistory extends Component {
                             </tr>
                           </thead>
                           <tbody>
-                            <tr role="row" className="odd">
-                            <td className="sorting_1">VP New Interior Design</td>
-                            <td>Senior Designer</td>
-                            <td>10</td>
-                            <td>Designed something new for interiors</td>
-                            </tr>
+                            {this.state.apidata.length!==0? 
+                              this.state.apidata.map((curr,index)=>{
+                                return(
+                                  <tr role="row" className="odd" key={index}>
+                                   <td className="sorting_1">{curr.ProjectName}</td>
+                                  <td>{curr.RoleName}</td>
+                                  <td>{curr.TimeSpent}</td>
+                                  <td>{curr.Comments}</td>
+                                </tr> 
+                                )
+                              }): "No Data"}
+                            
                           </tbody>
 
                         </table>
-                        <h5>Your time entries on January 15, 2019</h5>
+                        <h5>Your time entries on January {this.state.dayactive}, {this.state.yearactive}</h5>
                       </div>
                       {/* end table */}
                     </div>
