@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import {Link} from 'react-router-dom';
-import ConfiModel from './confimodel';
+
 
 class Configuration extends Component{
     constructor(props){

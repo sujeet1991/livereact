@@ -20,13 +20,13 @@ class logtime extends Component {
 		}
 		var dateapi=yy+"-"+mm+"-"+dd;
 		(async () => {
-			const rawResponse = await fetch('http://7b77680e.ngrok.io/livepages/index.php/api/getLogEntries', {
+			const rawResponse = await fetch('http://d13a0842.ngrok.io/livepages/index.php/api/getLogEntries', {
 				method: 'POST',
 				headers: {
 					'Accept': 'application/json',
 					'Content-Type': 'application/json'
 				},
-				body: JSON.stringify({ "employeeId": 1, "date":dateapi })
+				body: JSON.stringify({ "employeeId": 1, "date":dateapi})
 			});
 			const content = await rawResponse.json();
 			console.log(content.logEntry);

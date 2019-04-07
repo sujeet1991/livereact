@@ -10,8 +10,13 @@ const logdisplay = React.memo(function MyComponent(props){
                     <div className="col-sm-12">
                         <table id="example1" className="table table-bordered table-striped table-responsive dataTable no-footer" role="grid">
 					 <thead>
-                     {props.apidata.length!==0? 
-                        props.apidata.map((curr,index)=>{
+					    <tr role="row">
+                        <th className="sorting_disabled">Project Name</th><th className="sorting_disabled">Role</th>
+                        <th className="sorting_disabled">Hours Spent</th>
+                        <th className="sorting_disabled">Comments</th></tr>
+					 </thead>
+					 <tbody>
+                     {props.apidata.map((curr,index)=>{
                                 return(
                                   <tr role="row" className="odd" key={index}>
                                    <td className="sorting_1">{curr.ProjectName}</td>
@@ -20,10 +25,11 @@ const logdisplay = React.memo(function MyComponent(props){
                                   <td>{curr.Comments}</td>
                                 </tr> 
                                 )
-                              }): "No Data"}
-					 </thead>
-					 <tbody>
-					</tbody>
+                              })}
+						
+						
+						
+					 </tbody>
 				  </table></div></div><div className="row"><div className="col-sm-5"></div><div className="col-sm-7"></div></div></div>
 				  <button type="button" className="btn btn-default fix-button">Submit</button> 
 			   </div>

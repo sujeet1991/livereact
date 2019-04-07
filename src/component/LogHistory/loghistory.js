@@ -56,7 +56,7 @@ componentDidMount(){
 fetchreacord=(year,month,days)=>{
   let daterecord=year+"-"+month+"-"+days;
   (async () => {
-    const rawResponse = await fetch('http://7b77680e.ngrok.io/livepages/index.php/api/getLogEntries', {
+    const rawResponse = await fetch('http://d13a0842.ngrok.io/livepages/index.php/api/getLogEntries', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -84,6 +84,20 @@ fetchreacord=(year,month,days)=>{
       }
       
     }
+    let displayData=null;
+    if((this.state.apidata).length!==0){
+      displayData = this.state.apidata.map((curr,index)=>{
+        return(
+          <tr role="row" className="odd" key={index}>
+           <td className="sorting_1">{curr.ProjectName}</td>
+          <td>{curr.RoleName}</td>
+          <td>{curr.TimeSpent}</td>
+          <td>{curr.Comments}</td>
+        </tr> 
+        )
+      })
+    }
+   
    // console.log(daysloading)
     //console.log(this.state.apidata);
     return (
@@ -146,17 +160,7 @@ fetchreacord=(year,month,days)=>{
                             </tr>
                           </thead>
                           <tbody>
-                            {this.state.apidata.length!==0? 
-                              this.state.apidata.map((curr,index)=>{
-                                return(
-                                  <tr role="row" className="odd" key={index}>
-                                   <td className="sorting_1">{curr.ProjectName}</td>
-                                  <td>{curr.RoleName}</td>
-                                  <td>{curr.TimeSpent}</td>
-                                  <td>{curr.Comments}</td>
-                                </tr> 
-                                )
-                              }): "No Data"}
+                            {displayData}
                             
                           </tbody>
 
