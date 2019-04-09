@@ -1,8 +1,8 @@
 import React,{Component} from 'react';
 import HOCmodel from '../modelfileHoc';
-import {Link} from 'react-router-dom';
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+//import {Link} from 'react-router-dom';
+// import DatePicker from "react-datepicker";
+// import "react-datepicker/dist/react-datepicker.css";
 
 
 
@@ -28,112 +28,68 @@ class confimodel extends Component{
      } 
     
     render(){
-        const divstyle = (
-            <style jsx>{`
-              .col-sm-4{min-height:68px}
-            `}
-            </style>
-          );
-        
-        return(
-            <HOCmodel title="Add Project" closemodel={this.props.closemodel}>
-            {divstyle}
-                    <ul className="nav nav-pills">
-						<li className={this.state.tabactive==='tab1'?'active':null}><Link to="#" onClick={(e)=>this.tabactivehandler('tab1',e)}>Import from CRM</Link></li>
-						<li className={this.state.tabactive==='tab2'?'active':null}><Link to="#" onClick={(e)=>this.tabactivehandler('tab2',e)}>Manually Enter Project Details </Link></li>
-					 </ul>
-                     <div className="tab-content">
-                     {this.state.tabactive==='tab1'?
-                     <div className="row" style={{marginTop:'15px'}}>
-                        
-								 <div className="col-sm-4">
-									<label>Project Name</label>
-									<select name="project_name" className="form-control">
-									   <option value="project_name1">Project Name 1</option>
-									   <option value="project_name2">Project Name 2</option>
+         return(
+            <HOCmodel title="Add / Edit Configuration Parameter" closemodel={this.props.closemodel}>
+                <div className="row">
+							  <div className="col-sm-6">
+								 <div className="form-group">
+									<label>Company Name</label>
+									<select name="company_name" className="form-control" disabled="disabled">
+									   <option value="Company Name1" selected="selected">Amazone</option>
 									</select>
 								 </div>
-								 <div className="col-sm-4">
-									<label>Enquiry Date</label>
-									<div className="input-group date">
-									   <div className="input-group-addon">
-										  <i className="fa fa-calendar"></i>
-									   </div>
-									   <DatePicker  onChange={(e)=>this.handleChange(e)} selected={this.state.startDate} type="text" name="date1" className="form-control pull-right" id=""/>
-									</div>
-									
-								 </div>
-                                 </div>:
-                                 <div className="impcrm">
-                                    <div className="row">
-                                        <div className="col-sm-4">
-                                        <label>Project Name</label>
-                                        <input type="text" className="form-control" name="project_name"/>
-                                        </div>
-                                        <div className="col-sm-4">
-                                        <label>Enquiry Date</label>
-                                        <div className="input-group date">
-                                            <div className="input-group-addon">
-                                            <i className="fa fa-calendar"></i>
-                                            </div>
-                                           
-                                            <DatePicker  onChange={(e)=>this.handleChange(e)} selected={this.state.startDate} type="text" className="form-control pull-right" name="date2" id=""/>
-                                        </div>
-                                        </div>
-                                        <div className="col-sm-4">
-                                        <label>Referred By</label>
-                                        <input type="text" className="form-control" name="referred"/>
-                                        </div>
-                                        <div className="col-sm-4">
-                                        <label>Contact Name</label>
-                                        <input type="text" className="form-control" name="contact_name"/>
-                                        </div>
-                                        <div className="col-sm-4">
-                                        <label>Contact Email</label>
-                                        <input type="text" className="form-control" name="contact_email"/>
-                                        </div>
-                                        <div className="col-sm-4">
-                                        <label>Contact phone Number</label>
-                                        <input type="number" className="form-control" name="contact_phone"/>
-                                        </div>
-                                    </div>
-                                    <div className="row mgtb">
-                                        <div className="col-sm-12">
-                                        <h4>Site Location Details</h4>
-                                        </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="col-sm-4">
-                                        <label>Address Line 1</label>
-                                        <input type="text" className="form-control" name="add1"/>
-                                        </div>
-                                        <div className="col-sm-4">
-                                        <label>Address Line 2</label>
-                                        <input type="text" className="form-control" name="add2"/>
-                                        </div>
-                                        <div className="col-sm-4">
-                                        <label>City</label>
-                                        <input type="text" className="form-control" name="city"/>
-                                        </div>
-                                        <div className="col-sm-4">
-                                        <label>State</label>
-                                        <select name="state" className="form-control">
-                                            <option value="state1">State 1</option>
-                                            <option value="state2">State 2</option>
-                                        </select>
-                                        </div>
-                                        <div className="col-sm-4">
-                                        <label>Zip Code</label>
-                                        <input type="number" className="form-control" name="zip_code"/>
-                                        </div>
-                                        <div className="col-sm-4">
-                                        <label>Area (in Sq. Feet)</label>
-                                        <input type="number" className="form-control" name="area"/>
-                                        </div>
-                                    </div>
-                                    </div>
-                                 }
 							  </div>
+							  <div className="col-sm-6">
+								 <div className="form-group">
+									<label>Department</label>
+									<select name="Department" className="form-control" disabled="disabled">
+									   <option value="account" selected="selected">Account</option>
+									</select>
+								 </div>
+							  </div>
+							  <div className="col-sm-6">
+								 <div className="form-group">
+									<label>Parameter</label>
+									<select name="parameter" className="form-control" disabled="disabled">
+									   <option value="parameter1" selected="selected">Parameter1</option>
+									</select>
+								 </div>
+							  </div>
+							  <div className="col-sm-6">
+								 <div className="form-group">
+									<label>Display Name</label>
+									<input type="text" className="form-control" name="Name" required=""/>
+								 </div>
+							  </div>
+							  <div className="col-sm-6">
+								 <div className="form-group">
+									<label>Value</label>
+									<input type="text" className="form-control" name="Value" placeholder="" required=""/>
+								 </div>
+							  </div>
+							  <div className="col-sm-6">
+								 <div className="form-group">
+									<label>Order</label>
+									<input type="number" className="form-control" name="Order" placeholder="" required=""/>
+								 </div>
+							  </div>
+							  <div className="col-xs-12">
+								 <div className="form-group">
+									<label>Description</label>
+									<textarea className="form-control" row="3"></textarea>
+								 </div>
+							  </div>
+							  <div className="col-sm-6">
+								 <div className="form-group">
+									<label>Status</label>
+									<select name="parameter" className="form-control">
+									   <option value="Select">Select</option>
+									   <option value="parameter name2">Parameter Status 2</option>
+									   <option value="parameter name3">Parameter Status 3</option>
+									</select>
+								 </div>
+							  </div>
+						   </div>
                               
                     
             </HOCmodel>  

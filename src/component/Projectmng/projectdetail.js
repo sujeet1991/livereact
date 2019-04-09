@@ -293,13 +293,7 @@ export const Sitedetail=React.memo(function MyComponent(props){
       )
 })
 
-export const Teamstructure=React.memo(function MyComponent(props){
-    return (
-        <div>
-          Teamstructure
-        </div>
-      )
-})
+
  
 export const Ctc=React.memo(function MyComponent(props){
     return (

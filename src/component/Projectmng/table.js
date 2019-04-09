@@ -52,7 +52,7 @@ class table extends Component {
                                                  <tr>
                                                     <td>HDFC</td>
                                                     <td>SBI/123/7766</td>
-                                                    <td><Link to="#" onClick={(e)=>this.props.viewpart(e)}>View</Link></td>
+                                                    <td><Link to="/Projectmngtab">View</Link></td>
                                                 </tr>
                                                 
                                             </tbody>

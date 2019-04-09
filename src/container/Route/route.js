@@ -6,6 +6,7 @@ import Configuration from '../../component/Configuration/Configuration';
 import LogHistory from '../../component/LogHistory/loghistory';
 import Logtime from '../../component/Logtime/logtime';
 import ProjectMng from '../../component/Projectmng/projectmng';
+import Projectmngtab from '../../component/Projectmng/tabview';
 
  class routeMain extends Component {
   render() {
@@ -18,6 +19,7 @@ import ProjectMng from '../../component/Projectmng/projectmng';
             <Route path="/LogHistory" component={LogHistory}/>
             <Route path="/Logtime" component={Logtime}/>
             <Route path="/ProjectMng" component={ProjectMng}/>
+            <Route path="/Projectmngtab" component={Projectmngtab}/>
         </Switch>
       </div>
     )

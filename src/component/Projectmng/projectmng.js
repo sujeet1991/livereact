@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
 import Tableview from './table';
-import Tabview from './tabview';
+
 
 
 
@@ -9,15 +9,11 @@ import Tabview from './tabview';
    constructor(props){
      super(props);
      this.state={
-        viewpart:true
+        
      }
 
    }
-   veiwrender=()=>{
-     this.setState({
-      viewpart:false
-     })
-   }
+  
   
   render() {
     return (
@@ -34,7 +30,7 @@ import Tabview from './tabview';
                   <div className="pr-addbtn">
                     <button type="button" className="btn btn-default fix-button" data-toggle="modal" data-target=".bs-example-modal-lg">Add Project</button>
                   </div>
-                  {this.state.viewpart===true?<Tableview viewpart={this.veiwrender}/>: <Tabview/>}
+                  <Tableview viewpart={this.veiwrender}/>}
                   
                  
                 </div>
