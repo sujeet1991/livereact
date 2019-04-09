@@ -3,18 +3,31 @@ import {Link} from 'react-router-dom';
 
 
 export default class loghistory extends Component {
-  state={
-    month:['January','February','March','April','May','June','July','August','September','October','November','December'],
-    year:[2019,2018,2017],
-    days:31,
-    dayactive:"01",
-    yearactive:"2019",
-    monthactive:"01",
-    apidata:[],
+  constructor(props){
+    super(props);
+    this.state={
+      month:['January','February','March','April','May','June','July','August','September','October','November','December'],
+      year:[2019,2018,2017],
+      days:31,
+      dayactive:"01",
+      yearactive:"2019",
+      monthactive:"01",
+      apidata:[],
+      upindex:[]
+      }
     
   }
+
+  shouldComponentUpdate(nextProps,nextState){
+    console.log(nextState);
+    if((this.state.month!==nextState.month)||(this.state.days!==nextState.days)){
+      return true;
+    }
+  }
   
-  yearHandler=(e,curryear)=>{
+
+  
+yearHandler=(e,curryear)=>{
       this.setState({
         yearactive:curryear
       })
@@ -75,6 +88,27 @@ fetchreacord=(year,month,days)=>{
 
 
   render() {
+  //   const monthacti= this.state.monthactive;
+  // //console.log(monthacti)
+  //   this.state.month.map((curr,index)=>{
+  //   let indez= parseInt(index+1);
+    
+    
+  //   if(indez<10){
+  //     this.state.upindex.push("0"+indez)
+  //   }else{
+  //     this.state.upindex.push(indez) 
+  //   }
+  //   //console.log(this.state.upindex)
+  //   for(let i=0;i<=parseInt(this.state.upindex.length);i++){
+  //    if(parseInt(this.state.upindex[i])===parseInt(this.state.monthactive)){
+  //     console.log(this.state.month[i])
+  //     }
+  //   }
+    
+  // })
+
+
     let daysloading=[];
     for(let i=1;i<=this.state.days;i++){
       if(i<10){
@@ -98,8 +132,7 @@ fetchreacord=(year,month,days)=>{
       })
     }
    
-   // console.log(daysloading)
-    //console.log(this.state.apidata);
+   
     return (
         <React.Fragment>
         <section className="content-header">

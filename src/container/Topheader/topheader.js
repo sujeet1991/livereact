@@ -21,7 +21,7 @@ export default function topheader(props) {
         <div className="navbar-custom-menu">
             <ul className="nav navbar-nav">
                
-                <li className="dropdown notifications-menu">
+                {/* <li className="dropdown notifications-menu">
                     <Link to="#" className="dropdown-toggle" data-toggle="dropdown">
                     <i className="fa fa-bell-o"></i>
                     <span className="label label-warning">10</span>
@@ -61,7 +61,7 @@ export default function topheader(props) {
                         </li>
                         <li className="footer"><Link to="#">View all</Link></li>
                     </ul>
-                </li>
+                </li> */}
                
                 <li className="dropdown user user-menu">
                     <Link to="#" className="dropdown-toggle" data-toggle="dropdown">

@@ -1,42 +1,50 @@
 import React,{Component} from 'react';
 import {Link} from 'react-router-dom';
-
+import ConfiModel from './confimodel';
 
 class Configuration extends Component{
     constructor(props){
         super(props);
             this.state={
-                show:false
+                show:false,
+                addclass:null
+               
             
         }
-        this.handleshow=this.handleshow.bind(this);
-        this.handlehide=this.handlehide.bind(this);
+        //this.handleshow=this.handleshow.bind(this);
+       this.handlehide=this.handlehide.bind(this);
     }
+   
+
     
     handleshow=()=>{
         this.setState({
-            show:true
+            show:true,
+            addclass:'in'
         })
     }
     handlehide=()=>{
         this.setState({
-            show:false
+            show:false,
+            addclass:''
         })
     }
+    
     render(){
+        console.log(this.state.show)
         return(
               <React.Fragment>
                 <section className="content-header">
                     <ol className="breadcrumb">
                     <li><Link to="/">Home</Link></li>
-                    <li className="active">Configuration Parameter Management</li>
+                    <li className="active" >Configuration Parameter Management</li>
                     </ol>
                 </section>
                 <section className="content">
                     <div className="row">
                         <div className="col-xs-12">
                             <div className="addnew-parameter">
-                                <button type="button" className="btn btn-default fix-button" onClick={this.handleshow}>Add New Parameter</button>
+                                <button type="button" className="btn btn-default fix-button" onClick={(e)=>this.handleshow(e)}>Add New Parameter</button>
                             </div>  
                             <div className="box">
                                 <div className="para-mg-select">
@@ -101,7 +109,8 @@ class Configuration extends Component{
                         </div>
                     </div>
                 </section>
-                {/* <ConfiModel handlehide={this.handlehide} handleshow={this.handleshow}  show={this.state.show} /> */}
+                 {this.state.show===true?<ConfiModel  closemodel={this.handlehide}/>:null}   
+              
               </React.Fragment>  
         )
     }

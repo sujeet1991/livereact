@@ -19,7 +19,7 @@ const leftpanel=React.memo(function MyComponent(props){
 						</Link>
 					</li>
 					<li>
-						<Link to="/">
+						<Link to="/ProjectMng">
 						<img src={require('../../assets/images/promgmt-ic.png')} className="ic-mgt" alt="imagespromgmt"/><span>Project Management </span>
 						</Link>
 					</li>
