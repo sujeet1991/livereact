@@ -10,17 +10,10 @@ class confimodel extends Component{
     constructor(props){
         super(props);
         this.state = {
-            startDate: new Date(),
             tabactive:'tab1'
-
-          };
+        };
     }
-    handleChange=(e)=>{
-        //console.log(e.target.value);
-        this.setState({
-          startDate: e
-        });
-      }
+    
      tabactivehandler=(data)=>{
         this.setState({
             tabactive:data
