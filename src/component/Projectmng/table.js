@@ -43,17 +43,22 @@ class table extends Component {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>HDFC</td>
-                                                    <td>SBI/123/7766</td>
-                                                    <td><Link to="/" >Get Access</Link></td>
+                                            {this.props.data.map((curr,index)=>{
+                                                return(
+                                                    <tr key={index}>
+                                                    <td>{curr.projectName}</td>
+                                                    <td>{curr.projectCode}</td>
+                                                    <td><Link to={`Projectmngtab/${curr.projectId}`} >View</Link></td>
                                                 </tr>
+                                                )
+                                            })}
+                                               
     
-                                                 <tr>
+                                                 {/* <tr>
                                                     <td>HDFC</td>
                                                     <td>SBI/123/7766</td>
-                                                    <td><Link to="/Projectmngtab">View</Link></td>
-                                                </tr>
+                                                    <td><Link to="/Projectmngtab/1">View</Link></td>
+                                                </tr> */}
                                                 
                                             </tbody>
                                         </table>

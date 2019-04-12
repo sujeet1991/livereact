@@ -1,6 +1,9 @@
 import React,{Component} from 'react';
 import {Link} from 'react-router-dom';
-import {Projectdetail,Projecttracker,Sitedetail,Ctc} from './projectdetail';
+import Projectdetail from './projectdetail';
+import Projecttracker from './Projecttracker';
+import Sitedetail from './Sitedetail';
+import Ctc from './Ctc';
 import Teamstructure from './teamstature';
 
 class tableview extends Component{
@@ -10,17 +13,46 @@ class tableview extends Component{
             tabview:['Project Details','Project Tracker','Site Details','Team Structure','CTC'],
             tabactiveclass:'active',
             activetab:'Project Details',
-
+            fields:{},
+            startDate:new Date(),
+            apidata:[],
+            
         }
-        
+       //this.handleChange=this.handleChange.bind(this); 
     }
     viewclick=(e,view)=>{
       this.setState({
         activetab:view
       })
     }
+    handleChange=(field,e)=>{
+        let fields = this.state.fields;
+         fields[field]=e.target.value;
+        console.log(fields)
+    }
+
+    componentDidMount(){
+      let getid= this.props.match.params.id;
+      if(getid){
+          let datathis= this;
+         fetch('http://taskmanagement.lpipl.com/index.php/api/getProjectDetails', {
+              method: 'POST',
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({"projectId": getid} )
+            }).then(res=>res.json()).then(function(data){
+                datathis.setState({
+                    apidata:data
+                })
+            });
+        }
+}
+
 
     render(){
+        console.log(this.state.apidata)
         return(
             <React.Fragment>
             <section className="content-header">
@@ -43,11 +75,14 @@ class tableview extends Component{
                   )}
 				 
 			   </ul>
+
                <div className="tab-content">
-               {this.state.activetab==='Project Details'?  <Projectdetail/>:null}
-               {this.state.activetab==='Project Tracker'?    <Projecttracker/>:null}
-               {this.state.activetab==='Site Details'?  <Sitedetail/>:null}
-               {this.state.activetab==='Team Structure'?   <Teamstructure/>:null}
+               {this.state.activetab==='Project Details'?  <Projectdetail handlechange={this.handleChange} startDate={this.state.startDate} projectdetail={this.state.apidata} tabchange={this.viewclick}/>:null}
+
+               {this.state.activetab==='Project Tracker'?<Projecttracker projecttrack={this.state.apidata} tabchange={this.viewclick}/>:null}
+
+               {this.state.activetab==='Site Details'?  <Sitedetail site={this.state.apidata.site}/>:null}
+               {this.state.activetab==='Team Structure'? <Teamstructure team={this.state.apidata.team}/>:null}
                {this.state.activetab==='CTC'?   <Ctc/>:null}
                  
                  

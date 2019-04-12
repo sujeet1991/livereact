@@ -19,7 +19,7 @@ import Projectmngtab from '../../component/Projectmng/tabview';
             <Route path="/LogHistory" component={LogHistory}/>
             <Route path="/Logtime" component={Logtime}/>
             <Route path="/ProjectMng" component={ProjectMng}/>
-            <Route path="/Projectmngtab" component={Projectmngtab}/>
+            <Route path="/Projectmngtab/:id" component={Projectmngtab}/>
         </Switch>
       </div>
     )

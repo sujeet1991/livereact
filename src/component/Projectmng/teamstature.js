@@ -22,6 +22,7 @@ class Teamstruture extends Component{
     }
 
     render(){
+        console.log(this.props)
         
         return(
             <React.Fragment>
@@ -40,14 +41,21 @@ class Teamstruture extends Component{
                         </tr>
                         </thead>
                             <tbody>
-                            <tr  className="odd">
-                                <td className="">Sachin Naike</td>
-                                <td className="sorting_1">HOD</td>
-                                <td>25 March 2019</td>
-                                <td>1 April 2019</td>
-                                <td>40</td>
-                                <td><button type="button" className="edt-btn" data-toggle="modal" onClick={(e)=>this.handleshow(e)}><img src={require('../../assets/images/edit-bg.png')} alt="edit"/></button></td>
+                           {this.props.team.map((curr,index)=>{
+                               
+                               return(
+                                <tr  className="odd" key={index}>
+                                <td className="">{curr.employeeName}</td>
+                                <td className="sorting_1">{curr.role}</td>
+                                <td>{curr.startDate}</td>
+                                <td>{curr.endDate}</td>
+                                <td>{curr.allocatedHours}</td>
+                                
+                                <td><button type="button" data-id={curr.teamId} className="edt-btn" data-toggle="modal" onClick={(e)=>this.handleshow(e)}><img src={require('../../assets/images/edit-bg.png')} alt="edit"/></button></td>
                             </tr>
+                               )
+                           })} 
+                            
                             
                             </tbody>
                           </table>  

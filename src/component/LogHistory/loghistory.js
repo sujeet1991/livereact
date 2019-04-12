@@ -18,12 +18,6 @@ export default class loghistory extends Component {
     
   }
 
-  shouldComponentUpdate(nextProps,nextState){
-    console.log(nextState);
-    if((this.state.month!==nextState.month)||(this.state.days!==nextState.days)){
-      return true;
-    }
-  }
   
 
   
@@ -69,7 +63,7 @@ componentDidMount(){
 fetchreacord=(year,month,days)=>{
   let daterecord=year+"-"+month+"-"+days;
   (async () => {
-    const rawResponse = await fetch('http://d13a0842.ngrok.io/livepages/index.php/api/getLogEntries', {
+    const rawResponse = await fetch('http://taskmanagement.lpipl.com/index.php/api/getLogEntries', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
