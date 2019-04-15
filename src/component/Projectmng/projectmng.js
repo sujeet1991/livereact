@@ -74,12 +74,12 @@ handlehide=()=>{
                   </div>
                   </div>
                   <div className="col-md-6">
-                    <form className="navbar-form navbar-left" role="search">
+                    <div className="navbar-form navbar-left" role="search">
                     <div className="form-group">
                       <input type="text" className="form-control" onChange={this.formsearch} name="searchform" placeholder="Search..." style={{"border":'1px solid ##337ab7'}}/>
                     </div>
                       <button type="button" className="btn btn-default" onClick={(e)=>this.getdetail(e)}>Get Detail</button>
-                    </form>
+                    </div>
                   </div>
                   <div style={{clear:'both'}}></div>
                     {this.state.projects.length!==0? <Tableview viewpart={this.veiwrender} data={this.state.projects}/>:<div>Please search ...</div>}

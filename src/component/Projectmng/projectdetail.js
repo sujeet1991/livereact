@@ -14,9 +14,11 @@ class Projectdetail extends Component{
             projectDiscipline:[],
             projectType:[],
             projectSubType:[],
-            projectCategory:[]
+            projectCategory:[],
+            detailuser:{projectCode:"",projectName:"",enquiryDate:"",projectState:"",                             projectStatus:"",projectDiscipline:"",projectType:"",projectSubType:"",                  projectCategory:"",referredBy:"",area:"",enquiryValue:"",                                enquiryDesignFee:""}
 
         }
+      
     }
 
     componentWillMount(){
@@ -36,7 +38,7 @@ class Projectdetail extends Component{
             'Accept': 'application/json',
             'Content-Type': 'application/json'
             },
-             body: JSON.stringify({  "tenantId" : "1","paramName" : "ProjectState" } )
+             body: JSON.stringify({  "tenantId" : "1","paramName" : "Project State" } )
         }).then(data=>data.json()).then(function(res){
             statethis.setState({
                 projectState:res.params
@@ -121,18 +123,63 @@ class Projectdetail extends Component{
            })
        })
     }
+    changeHandler=(formname,e)=>{
+        
+        let detailusernew=this.state.detailuser;
+            detailusernew[formname]=e.target.value;
+            this.setState({detailuser:detailusernew})
+       
+    }
 
+    submitData=()=>{
+        var projectCode= this.refs.projectCode.value;
+        var projectName=this.refs.projectName.value;
+        var enquiryDate= this.refs.enquiryDate.value;
+        var projectState= this.refs.projectState.value;
+        var projectStatus= this.refs.projectStatus.value;
+        var projectDiscipline= this.refs.projectDiscipline.value;
+        var projectType= this.refs.projectType.value;
+        var projectSubType= this.refs.projectSubType.value;
+        var projectCategory=this.refs.projectCategory.value;
+        var referredBy= this.refs.referredBy.value;
+        var area= this.refs.area.value;
+        var enquiryValue= this.refs.enquiryValue.value;
+        var enquiryDesignFee= this.refs.enquiryDesignFee.value;
+
+        console.log({projectCode,projectName,enquiryDate,projectState,projectStatus,projectDiscipline,projectType,projectSubType,projectCategory,referredBy,area,enquiryValue,enquiryDesignFee})
+
+
+    }
+    
+    componentWillReceiveProps(newProps){
+        let propsdata=newProps.projectdetail;
+        // detailuser:{projectCode:"",projectName:"",enquiryDate:"",projectState:"",                             projectStatus:"",projectDiscipline:"",projectType:"",projectSubType:"",                  projectCategory:"",referredBy:"",area:"",enquiryValue:"",                                enquiryDesignFee:""}
+        this.setState({detailuser:{
+            projectName:propsdata.projectName,
+            enquiryDate:propsdata.enquiryDate,
+            projectState:propsdata.projectState,
+            projectStatus:propsdata.projectStatus,
+            projectDiscipline:propsdata.projectDiscipline,
+            projectType:propsdata.projectType,
+            projectSubType:propsdata.projectSubType,
+            projectCategory:propsdata.projectCategory,
+            referredBy:propsdata.referredBy,
+            area:propsdata.area,
+            enquiryValue:propsdata.enquiryValue,
+            enquiryDesignFee:propsdata.enquiryDesignFee
+        }})
+    }
     render(){
-        //console.log(this.props.projectdetail.projectState)
+        console.log(this.state.detailuser)
            let dataequire=null
-            if((this.props.projectdetail).length!==0){
-                //console.log(this.props.projectdetail.projectState)
-                let {enquiryDate}=this.props.projectdetail;
+            if((this.state.detailuser).length!==0){
+               
+                let {enquiryDate}=this.state.detailuser;
                 dataequire=enquiryDate.split(" ")[0];
                 
                
             }
-            //console.log(equirydata);
+           
         return (
             <div className="form-box-mgmt">
         
@@ -141,13 +188,13 @@ class Projectdetail extends Component{
                     <div className="col-sm-4">
                         <div className="form-group">
                         <label>Project</label> 
-                        <input type="text" name="projectCode" placeholder="VP/123/2019" disabled="" className="form-control"/> 
+                        <input type="text" name="projectCode" onChange={(e)=>this.changeHandler('projectCode',e)} ref="projectCode" placeholder="VP/123/2019" disabled="disabled" className="form-control"/> 
                         </div>
                     </div>
                     <div className="col-sm-4">
                         <div className="form-group">
                         <label>Project Name</label> 
-                            <input type="text"  name="projectName" className="form-control" onChange={(e)=>this.props.handlechange('projectName',e)} value={this.props.projectdetail.projectName|| ''}/> 
+                            <input type="text"  name="projectName" className="form-control" ref="projectName" onChange={(e)=>this.changeHandler('projectName',e)} value={this.state.detailuser.projectName}/> 
                         </div>
                     </div>
                     <div className="col-sm-4">
@@ -157,7 +204,7 @@ class Projectdetail extends Component{
                             <div className="input-group-addon">
                             <i className="fa fa-calendar"></i>
                             </div>
-                            <DatePicker className="form-control pull-right" value={dataequire || ''} name="enquiryDate" selected={this.props.startDate} onChange={(e)=>this.props.handlechange('enquiryDate',e)}/>
+                            <input type="date" className="form-control pull-right"  onChange={(e)=>this.changeHandler('enquiryDate',e)} ref="enquiryDate" value={dataequire || ''} name="enquiryDate"/>
                         </div>
                     
                         </div>
@@ -166,17 +213,17 @@ class Projectdetail extends Component{
                         <div className="form-group">
                         <label>Project State </label> 
 
-                        <select name="projectState" className="form-control">
+                        <select name="projectState" defaultValue={'DEFAULT'} ref="projectState" className="form-control" onChange={(e)=>this.changeHandler('projectState',e)}>
                         {this.state.projectState==='Invalid tenant, please contact system admin'?
                             <option>No Data found</option>:
                             this.state.projectState.map((curr,index)=>{
                                 let highlight=null;
-                                if(curr.paramId===this.props.projectdetail.projectState){
+                                if(curr.id===this.state.detailuser.projectState){
                                     highlight='selected'
                                 }
                                
                                 return(
-                                    <option key={index} value={curr.paramId} selected={highlight}>{curr.name}</option>
+                                    <option key={index} value={curr.id} selected={highlight}>{curr.paramValue}</option>
                                 )
                             })
                          } 
@@ -186,17 +233,17 @@ class Projectdetail extends Component{
                     <div className="col-sm-4">
                         <div className="form-group">
                         <label>Project Status</label> 
-                        <select name="projectStatus" className="form-control">
+                        <select name="projectStatus" onChange={(e)=>this.changeHandler('projectStatus',e)} ref="projectStatus" className="form-control">
                         {this.state.projectStatus==='Invalid tenant, please contact system admin'?
                             <option>No Data found</option>:
                             this.state.projectStatus.map((curr,index)=>{
                                 let highlight=null;
-                                if(curr.paramId===this.props.projectdetail.projectStatus){
+                                if(curr.id===this.state.detailuser.projectStatus){
                                     highlight='selected'
                                 }
                                
                                 return(
-                                    <option key={index} value={curr.paramId} selected={highlight}>{curr.name}</option>
+                                    <option key={index} value={curr.id} selected={highlight}>{curr.paramValue}</option>
                                 )
                             })
                          } 
@@ -207,17 +254,17 @@ class Projectdetail extends Component{
                     <div className="col-sm-4">
                         <div className="form-group">
                         <label>Project Discipline</label> 
-                        <select name="projectDiscipline" className="form-control">
+                        <select name="projectDiscipline" onChange={(e)=>this.changeHandler('projectDiscipline',e)}  defaultValue={'DEFAULT'} ref="projectDiscipline" className="form-control">
                          {this.state.projectDiscipline==='Invalid tenant, please contact system admin'?
                             <option>No Data found</option>:
                             this.state.projectDiscipline.map((curr,index)=>{
                                 let highlight=null;
-                                if(curr.paramId===this.props.projectdetail.projectDiscipline){
+                                if(curr.id===this.state.detailuser.projectDiscipline){
                                     highlight='selected'
                                 }
                                
                                 return(
-                                    <option key={index} value={curr.paramId} selected={highlight}>{curr.name}</option>
+                                    <option key={index} value={curr.id} selected={highlight}>{curr.paramValue}</option>
                                 )
                             })
                          } 
@@ -230,17 +277,17 @@ class Projectdetail extends Component{
                     <div className="col-sm-4">
                         <div className="form-group">
                         <label>Project Type</label> 
-                        <select name="projectType" className="form-control">
+                        <select name="projectType" onChange={(e)=>this.changeHandler('projectType',e)}  ref="projectType" className="form-control">
                         {this.state.projectType==='Invalid tenant, please contact system admin'?
                             <option>No Data found</option>:
                             this.state.projectType.map((curr,index)=>{
                                 let highlight=null;
-                                if(curr.paramId===this.props.projectdetail.projectType){
+                                if(curr.id===this.state.detailuser.projectType){
                                     highlight='selected'
                                 }
                                
                                 return(
-                                    <option key={index} value={curr.paramId} selected={highlight}>{curr.name}</option>
+                                    <option key={index} value={curr.id} selected={highlight}>{curr.paramValue}</option>
                                 )
                             })
                          } 
@@ -252,12 +299,12 @@ class Projectdetail extends Component{
                         <div className="form-group">
                         <label>Project Subtype</label> 
                         
-                        <select name="projectSubType" className="form-control">
+                        <select name="projectSubType" onChange={(e)=>this.changeHandler('projectSubType',e)} ref="projectSubType" className="form-control">
                          {this.state.projectSubType==='Invalid tenant, please contact system admin'?
                             <option>No Data found</option>:
                             this.state.projectSubType.map((curr,index)=>{
                                 let highlight=null;
-                                if(curr.paramId===this.props.projectdetail.projectSubType){
+                                if(curr.paramId===this.state.detailuser.projectSubType){
                                     highlight='selected'
                                 }
                                 return(
@@ -272,17 +319,17 @@ class Projectdetail extends Component{
                     <div className="col-sm-4">
                         <div className="form-group">
                         <label>Project Category</label> 
-                        <select name="projectCategory" className="form-control">
+                        <select name="projectCategory" onChange={(e)=>this.changeHandler('projectCategory',e)} ref="projectCategory" className="form-control">
                             {this.state.projectCategory==='Invalid tenant, please contact system admin'?
                             <option>No Data found</option>:
                             this.state.projectCategory.map((curr,index)=>{
                                 let highlight=null;
-                                if(curr.paramId===this.props.projectdetail.projectCategory){
+                                if(curr.id===this.state.detailuser.projectCategory){
                                     highlight='selected'
                                 }
-                                console.log(this.props.projectdetail.projectCategory);
+                               
                                 return(
-                                    <option key={index} value={curr.paramId} selected={highlight}>{curr.name}</option>
+                                    <option key={index} value={curr.id} selected={highlight}>{curr.paramValue}</option>
                                 )
                             })
                          }  
@@ -295,32 +342,33 @@ class Projectdetail extends Component{
                     <div className="col-sm-4">
                         <div className="form-group">
                         <label>Reference</label> 
-                        <input type="text"  value={this.props.projectdetail.referredBy|| ''} name="referredBy" className="form-control"/>
+                        <input type="text"  value={this.state.detailuser.referredBy}            name="referredBy" ref="referredBy" onChange={(e)=>this.changeHandler('referredBy',e)} className="form-control"/>
                         </div>
                     </div>
                     <div className="col-sm-4">
                         <div className="form-group">
                         <label>Area (in.Sq.Ft.)</label> 
-                        <input type="number" name="area" value={this.props.projectdetail.area|| ''} className="form-control"/>
+                        <input type="number" name="area"  onChange={(e)=>this.changeHandler('area',e)} ref="area" value={this.state.detailuser.area} className="form-control"/>
                         </div>
                     </div>
                     <div className="col-sm-4">
                         <div className="form-group">
                         <label>Value(Enquiry)</label> 
-                            <input type="number" name="enquiryValue" value={this.props.projectdetail.enquiryValue|| ''} className="form-control"/>
+                            <input type="number" name="enquiryValue"  onChange={(e)=>this.changeHandler('enquiryValue',e)} ref="enquiryValue" value={this.state.detailuser.enquiryValue} className="form-control"/>
                         </div>
                     </div>
                     <div className="col-sm-4">
                         <div className="form-group">
                         <label>Design Fee(Enquiry)</label> 
-                        <input type="number" name="enquiryDesignFee" value={this.props.projectdetail.enquiryDesignFee|| ''} className="form-control"/>
+                        <input type="number" name="enquiryDesignFee" ref="enquiryDesignFee" value={this.state.detailuser.enquiryDesignFee} onChange={(e)=>this.changeHandler('enquiryDesignFee',e)} className="form-control"/>
                         </div>
                     </div>
                     </div>
                     <div className="row mgtop">
                     <div className="col-sm-12">
                         <div className="form-group">
-                        <button type="button" className="btn btn-default fix-button" style={{marginRight:'8px'}} onClick={(e)=>this.props.tabchange(e,'Project Tracker')}>Continue</button>
+                        <button type="button" userdetail={this.state.detailuser} onClick={(e)=>this.props.tabchange(e,'Project Tracker')}  className="btn btn-default fix-button" style={{marginRight:'8px'}} >Continue</button>
+                        {/* onClick={(e)=>this.props.tabchange(e,'Project Tracker')} */}
                         <button type="button" className="btn btn-default fix-button clr-new">Close</button>
                         </div>
                     </div>

@@ -26,9 +26,10 @@ class tableview extends Component{
       })
     }
     handleChange=(field,e)=>{
-        let fields = this.state.fields;
-         fields[field]=e.target.value;
-        console.log(fields)
+        
+        // let fields = this.state.fields;
+        //  fields[field]=e.target.value;
+        // console.log(fields)
     }
 
     componentDidMount(){
@@ -52,7 +53,7 @@ class tableview extends Component{
 
 
     render(){
-        console.log(this.state.apidata)
+        //console.log(this.state.apidata)
         return(
             <React.Fragment>
             <section className="content-header">
