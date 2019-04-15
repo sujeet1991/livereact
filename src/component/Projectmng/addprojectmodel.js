@@ -9,15 +9,20 @@ class confimodel extends Component{
         this.state = {
             startDate: new Date(),
             tabactive:'tab1',
-            formname:{"projectId":"","projectName":"","enquiryDate":"","referredBy":"","contactName":"","contactEmail":"","contactPhone":"","addressLine1":"","addressLine2":"","city":"","state":"","zipCode":"","area":"","projectSource": "Manual","crmId": "","projectStatus":"","projectState":"","projectDiscipline":"","projectType":"","projectSubType":"","projectCategory":"","enquiryValue":"","enquiryDesignFee":"","appointmentDate": "","lostDate": "","projectStartDate":"","projectHoldDate": "","completionTarget":"", "targetDate": "","actualCompletionDate":"","jobStatus": "","awardedProjectValue":"","awardedDesignValue": "","createdBy":"","dateCreated": "","modifiedBy":""}
+            formname:{"projectId":"","projectName":"","enquiryDate":"1900-01-01 00:00:00","referredBy":"","contactName":"","contactEmail":"","contactPhone":"","addressLine1":"","addressLine2":"","city":"","state":"","zipCode":"","area":"","projectSource": "Manual","crmId": "","projectStatus":"","projectState":"","projectDiscipline":"","projectType":"","projectSubType":"","projectCategory":"","enquiryValue":"","enquiryDesignFee":"","appointmentDate": "","lostDate": "","projectStartDate":"","projectHoldDate": "","completionTarget":"", "targetDate": "","actualCompletionDate":"","jobStatus": "","awardedProjectValue":"","awardedDesignValue": "","createdBy":"","dateCreated": "","modifiedBy":""}
         };
        //this.changehandle=this.changehandle.bind(this);
         this.savedata=this.savedata.bind(this);
     }
     changehandle(e,name){
         let formname= this.state.formname;
-        formname[name]=e.target.value;
-        formname[e.target.name]=e.target.value;
+        if(name==='enquiryDate'){
+            formname[name]=e.target.value+" "+"00:00:00";   
+        }else{
+            formname[name]=e.target.value;
+        }
+       
+       // formname[e.target.name]=e.target.value;
         this.setState({formname:formname})
 
     }
