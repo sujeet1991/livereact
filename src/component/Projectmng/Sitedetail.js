@@ -12,11 +12,15 @@ export default class Sitedetail extends Component {
   }
 
   componentWillMount(){
+    var geturl =window.location.href.split('/');
+    let getnumber=geturl.length-1;
+    
+
     var getdata = localStorage.getItem("getproject");
     var strdata = JSON.parse(getdata);
     let site=strdata.site;
 
-    this.setState({siteform:({projectId:"",site:({...site,"siteName":'',"id":''})})})
+    this.setState({siteform:({projectId:geturl[getnumber],site:({...site,"siteName":'',"id":''})})})
     //console.log(strdata);
     
   }
@@ -25,12 +29,14 @@ export default class Sitedetail extends Component {
   siteonchange=(feildname,e)=>{
     console.log(feildname);
     let site= this.state.siteform.site;
+    let getstateid= this.state.siteform.projectId;
     site[feildname]=e.target.value;
     
-    this.setState({siteform:({projectId:"",site:({...site,"siteName":'',"id":'1'})})})
+    this.setState({siteform:({projectId:getstateid,site:({...site,"siteName":'',"id":'1'})})})
 
   }
   savesitedata=()=>{
+  
     let getsatedata=this.state.siteform;
     console.log(getsatedata);
     
@@ -44,8 +50,7 @@ export default class Sitedetail extends Component {
       body: JSON.stringify(getsatedata)
     });
     const content = await rawResponse.json();
-  
-    console.log(content);
+    alert(content.message)
   })();
 
 
@@ -54,7 +59,8 @@ export default class Sitedetail extends Component {
   
 
   render() {
-    console.log(this.state.siteform);
+    
+    console.log(this.state.siteform)
     return (
         <div className="form-box-mgmt">
         
