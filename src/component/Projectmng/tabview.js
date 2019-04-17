@@ -46,7 +46,9 @@ class tableview extends Component{
             }).then(res=>res.json()).then(function(data){
                 datathis.setState({
                     apidata:data
-                })
+                });
+                localStorage.setItem('getproject',JSON.stringify(data));
+
             });
         }
 }
@@ -78,9 +80,10 @@ class tableview extends Component{
 			   </ul>
 
                <div className="tab-content">
+
                {this.state.activetab==='Project Details'?  <Projectdetail handlechange={this.handleChange} startDate={this.state.startDate} projectdetail={this.state.apidata} tabchange={this.viewclick}/>:null}
 
-               {this.state.activetab==='Project Tracker'?<Projecttracker projecttrack={this.state.apidata} tabchange={this.viewclick}/>:null}
+               {this.state.activetab==='Project Tracker'? <Projecttracker projecttrack={this.state.apidata} tabchange={this.viewclick}/>:null}
 
                {this.state.activetab==='Site Details'?  <Sitedetail site={this.state.apidata.site}/>:null}
                {this.state.activetab==='Team Structure'? <Teamstructure team={this.state.apidata.team}/>:null}

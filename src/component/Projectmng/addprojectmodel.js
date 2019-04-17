@@ -9,7 +9,7 @@ class confimodel extends Component{
         this.state = {
             startDate: new Date(),
             tabactive:'tab1',
-            formname:{"projectId":"","projectName":"","enquiryDate":"1900-01-01 00:00:00","referredBy":"","contactName":"","contactEmail":"","contactPhone":"","addressLine1":"","addressLine2":"","city":"","state":"","zipCode":"","area":"","projectSource": "Manual","crmId": "","projectStatus":"","projectState":"","projectDiscipline":"","projectType":"","projectSubType":"","projectCategory":"","enquiryValue":"","enquiryDesignFee":"","appointmentDate": "","lostDate": "","projectStartDate":"","projectHoldDate": "","completionTarget":"", "targetDate": "","actualCompletionDate":"","jobStatus": "","awardedProjectValue":"","awardedDesignValue": "","createdBy":"","dateCreated": "","modifiedBy":""}
+            formname:{"projectId":"","projectName":"","enquiryDate":"1900-01-01 00:00:00","referredBy":"","contactName":"","contactEmail":"","contactPhone":"","addressLine1":"","addressLine2":"","city":"","state":"","zipCode":"","area":"","projectSource": "Manual","crmId": "","projectStatus":0,"projectState":"","projectDiscipline":0,"projectType":0,"projectSubType":0,"projectCategory":0,"enquiryValue":0,"enquiryDesignFee":0,"appointmentDate": "","lostDate": "","projectStartDate":"","projectHoldDate": "","completionTarget":0, "targetDate": "","actualCompletionDate":"","jobStatus": 0,"awardedProjectValue":0,"createdBy":"","dateCreated": "","modifiedBy":""}
         };
        //this.changehandle=this.changehandle.bind(this);
         this.savedata=this.savedata.bind(this);
@@ -45,22 +45,31 @@ class confimodel extends Component{
         //     return false;
         // }
         let formuser= this.state.formname;
-        (async () => {
-            const rawResponse = await fetch('http://taskmanagement.lpipl.com/index.php/api/saveProjectDetails', {
-              method: 'POST',
-              headers: {
+        fetch('http://taskmanagement.lpipl.com/index.php/api/saveProjectDetails', {
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formuser)
+          }).then(res=>res.json()).then(function(data){
+              console.log(data.projectId);
+            let datajson={"projectId":data.projectId,"site":{"id":"","siteName":"abcd","addressLine1":formuser.addressLine1,"addressLine2":formuser.addressLine2,"city":formuser.city,"state":formuser.state,"country":formuser.country,"zipCode":formuser.zipCode,"country":'india'}};
+                console.log(datajson);
+                fetch('http://taskmanagement.lpipl.com/index.php/api/saveSiteDetails',{
+                method: 'POST',
+                headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
-              },
-              body: JSON.stringify({formuser})
-            });
-            const content = await rawResponse.json();
-            console.log(content);
-            // this.setState({
-            //   apidata:content.logEntry
-            // })
-            
-          })();
+                },
+                body: JSON.stringify(datajson)
+                }).then(res=>res.json()).then(function(res){
+                    alert(res.message);
+                    window.location.reload();
+                })
+          })
+               
+        
     }
 
     handleChange=(e)=>{

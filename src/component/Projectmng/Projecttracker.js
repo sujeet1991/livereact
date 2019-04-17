@@ -6,11 +6,19 @@ export default class Projecttracker extends Component {
     constructor(props){
         super(props);
         this.state={
-            jobStatus:[]
+            jobStatus:[],
+            projectTrack:{},
+
         }
     }
     componentWillMount(){
+      console.log('mount');
         this.jobStatus();
+        var projectdetaildata =localStorage.getItem("projectDetail");
+      
+      
+        //this.setState({projectTrack:projectdetaildata})
+       console.log("local"+projectdetaildata);
     }
     jobStatus() {
         let statethis=this;
@@ -30,11 +38,12 @@ export default class Projecttracker extends Component {
 
     componentWillReceiveProps(newProps){
         console.log("hi");
-        console.log(newProps);
+        console.log("sujeet"+newProps);
     }
 
   render() {
-      console.log(this.props)
+    //console.log(this.state.projectTrack)
+      //console.log(this.props)
       let appointmentDatenew,lostDatenew,projectStartDatenew,projectHoldDatenew,targetDatenew,actualCompletionDatenew=null;
      
       if(this.props.projecttrack.length!==0){

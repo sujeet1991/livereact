@@ -124,10 +124,14 @@ class Projectdetail extends Component{
        })
     }
     changeHandler=(formname,e)=>{
-        
         let detailusernew=this.state.detailuser;
+        if(formname==='enquiryDate'){
+            detailusernew[formname]=e.target.value+" "+"00:00:00";
+        }else{
             detailusernew[formname]=e.target.value;
-            this.setState({detailuser:detailusernew})
+        }
+         this.setState({detailuser:detailusernew});
+         localStorage.setItem('projectDetail', JSON.stringify(detailusernew));
        
     }
 
@@ -170,7 +174,7 @@ class Projectdetail extends Component{
         }})
     }
     render(){
-        console.log(this.state.detailuser)
+       // console.log(this.state.detailuser)
            let dataequire=null
             if((this.state.detailuser).length!==0){
                
