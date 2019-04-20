@@ -128,6 +128,8 @@ class Teamstruture extends Component{
                     </div>
                 </div>
             </div>
+              <div><button type="button">Save Team </button></div>  
+
                </Modelteam>:null} 
             </React.Fragment>
         )

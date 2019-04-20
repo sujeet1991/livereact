@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { setTimeout } from 'timers';
 // import input from "react-datepicker";
 // import "react-datepicker/dist/react-datepicker.css";
 
@@ -8,7 +9,9 @@ export default class Projecttracker extends Component {
         this.state={
             jobStatus:[],
             projecttrack:{},
-            projectdetail:{}
+            projectdetail:{},
+            message:null,
+            msgerror:null
 
         }
     }
@@ -16,6 +19,7 @@ export default class Projecttracker extends Component {
       //console.log('mount');
         this.jobStatus();
         var projectdetaildata =localStorage.getItem("projectDetail");
+        console.log(projectdetaildata);
         var gettrackerdetailold=localStorage.getItem("getproject")
         //console.log(gettrackerdetailold)
         let gettrackerdetail=JSON.parse(gettrackerdetailold);
@@ -27,11 +31,18 @@ export default class Projecttracker extends Component {
           "projectHoldDate":gettrackerdetail.projectHoldDate,
           "targetDate":gettrackerdetail.targetDate,
           "actualCompletionDate":gettrackerdetail.actualCompletionDate,
+          "jobStatus":gettrackerdetail.jobStatus,
+          "completionTarget":gettrackerdetail.completionTarget,
+          "awardedProjectValue":gettrackerdetail.awardedProjectValue,
+          "awardedDesignValue":gettrackerdetail.awardedDesignValue
+        
+
+
         } 
-        //console.log(gettrackprojectjson)
+       
         this.setState({projectdetail:projectdetaildata,projecttrack:gettrackprojectjson}) 
       
-        //this.setState({projectTrack:projectdetaildata})
+      
        
     }
     jobStatus() {
@@ -67,15 +78,78 @@ export default class Projecttracker extends Component {
     savedata=()=>{
       let projectdetail =this.state.projectdetail;
       let projecttrack=this.state.projecttrack;
-      console.log(projectdetail)
-      console.log(projecttrack)
+      let Data1 = JSON.parse(projectdetail);
       
-      
-
-
-
-      
-      //console.log(Object.assign(projectdetail,projecttrack))
+      var geturl =window.location.href.split('/');
+      let getnumber=geturl.length-1;
+      let Data = {projectId:geturl[getnumber],createdBy:"",modifiedBy:"",tenantId:1,...Data1, ...projecttrack};
+      //console.log(projecttrack.appointmentDate);
+      if(projecttrack.appointmentDate===" 00:00:00"){
+        
+        this.setState({
+          msgerror:'Appointment Date mandatory'
+        })
+      }else if(projecttrack.lostDate===" 00:00:00"){
+        this.setState({
+          msgerror:'Lost Date mandatory'
+        })
+      }else if(projecttrack.projectStartDate===" 00:00:00"){
+        this.setState({
+          msgerror:'Project Start Date mandatory'
+        })
+      }else if(projecttrack.projectHoldDate===" 00:00:00"){
+        this.setState({
+          msgerror:'Project Hold Date mandatory'
+        })
+      }else if(projecttrack.targetDate===" 00:00:00"){
+        this.setState({
+          msgerror:'Target Date mandatory'
+        })
+      }else if(projecttrack.actualCompletionDate===" 00:00:00"){
+        this.setState({
+          msgerror:'Actual CompletionDate mandatory'
+        })
+      }else if(projecttrack.jobStatus===""){
+        this.setState({
+          msgerror:'Job Status mandatory'
+        })
+      }else if(projecttrack.completionTarget===""){
+        this.setState({
+          msgerror:'completion Target mandatory'
+        })
+      }else if(projecttrack.awardedProjectValue===""){
+        this.setState({
+          msgerror:'Awarded Project Value mandatory'
+        })
+      }else if(projecttrack.awardedDesignValue===""){
+        this.setState({
+          msgerror:'Awarded Design Value mandatory'
+        })
+      }else{
+        this.setState({
+          msgerror:null
+        });
+        (async () => {
+          const rawResponse = await fetch('http://taskmanagement.lpipl.com/index.php/api/saveProjectDetails', {
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(Data)
+          });
+          const content = await rawResponse.json();
+          this.setState({
+            message:content.message
+          })
+          setTimeout(function(){
+            this.setState({
+              message:null
+            })
+          }.bind(this),5000)
+         
+        })();
+      }
     }
     
 
@@ -214,6 +288,11 @@ export default class Projecttracker extends Component {
       </div>
     </div>
     <div className="row mgtop">
+        {this.state.message!==null?<p className="btn btn-success">{this.state.message}</p>:null}  
+        <div className="col-md-12">
+        {this.state.msgerror!==null?<p className="btn btn-danger">{this.state.msgerror}</p>:null}
+        </div>               
+        
       <div className="col-sm-12">
         <div className="form-group">
           <button type="button" onClick={(e)=>this.savedata(e)} className="btn btn-default fix-button" style={{marginRight:'8px'}}>Continue</button>

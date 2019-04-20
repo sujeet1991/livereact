@@ -15,19 +15,104 @@ class Projectdetail extends Component{
             projectType:[],
             projectSubType:[],
             projectCategory:[],
-            detailuser:{projectCode:"",projectName:"",enquiryDate:"",projectState:"",                             projectStatus:"",projectDiscipline:"",projectType:"",projectSubType:"",                  projectCategory:"",referredBy:"",area:"",enquiryValue:"",                                enquiryDesignFee:""}
+            detailuser:{},
+            msgError:null,
 
         }
-      
+      this.nextTab = this.nextTab.bind(this);
+    }
+
+    nextTab(e){
+        var feName=this.state.detailuser;
+        if(feName.projectName===""){
+            this.setState({
+                msgError:'Project Name is mandatory'
+            })
+        }else if(feName.enquiryDate===""){
+            this.setState({
+                msgError:'Enquiry Date is mandatory'
+            })
+        }else if(feName.projectState===""){
+            this.setState({
+                msgError:'Project State is mandatory'
+            })
+        }else if(feName.projectStatus===""){
+            this.setState({
+                msgError:'Project Status is mandatory'
+            })
+        }else if(feName.projectDiscipline===""){
+            this.setState({
+                msgError:'Project Discipline is mandatory'
+            })
+        }else if(feName.projectType===""){
+            this.setState({
+                msgError:'Project type is mandatory'
+            })
+        }else if(feName.projectSubType===""){
+            this.setState({
+                msgError:'Project Subtype is mandatory'
+            })
+        }else if(feName.projectCategory===""){
+            this.setState({
+                msgError:'Project Category is mandatory'
+            })
+        }else if(feName.referredBy===""){
+            this.setState({
+                msgError:'Referred By is mandatory'
+            })
+        }else if(feName.area===""){
+            this.setState({
+                msgError:'area is mandatory'
+            })
+        }else if(feName.enquiryValue===""){
+            this.setState({
+                msgError:'enquiryValue is mandatory'
+            })
+        }
+        else if(feName.enquiryDesignFee===""){
+            this.setState({
+                msgError:'enquiryDesignFee is mandatory'
+            })
+        }else{
+            this.setState({
+                msgError:null
+            });
+            this.props.tabchange(e,'Project Tracker');
+        }
+    
+        
     }
 
     componentWillMount(){
+        
+        var projectdeetail=localStorage.getItem("getproject");
+        let getdata=JSON.parse(projectdeetail);
+        this.setState({detailuser:{
+            projectName:getdata.projectName,
+            enquiryDate:getdata.enquiryDate,
+            projectState:getdata.projectState,
+            projectStatus:getdata.projectStatus,
+            projectDiscipline:getdata.projectDiscipline,
+            projectType:getdata.projectType,
+            projectSubType:getdata.projectSubType,
+            projectCategory:getdata.projectCategory,
+            referredBy:getdata.referredBy,
+            area:getdata.area,
+            enquiryValue:getdata.enquiryValue,
+            enquiryDesignFee:getdata.enquiryDesignFee
+        }})
         this.projectState();
         this.projectStatus();
         this.projectDiscipline();
         this.projectType();
         this.projectSubType();
         this.projectCategory();
+        
+    }
+
+    componentDidMount(){
+        let detailusernew=this.state.detailuser;
+        localStorage.setItem('projectDetail', JSON.stringify(detailusernew));
     }
 
     projectState=()=>{
@@ -149,30 +234,30 @@ class Projectdetail extends Component{
         var area= this.refs.area.value;
         var enquiryValue= this.refs.enquiryValue.value;
         var enquiryDesignFee= this.refs.enquiryDesignFee.value;
-
+        
         console.log({projectCode,projectName,enquiryDate,projectState,projectStatus,projectDiscipline,projectType,projectSubType,projectCategory,referredBy,area,enquiryValue,enquiryDesignFee})
 
 
     }
     
-    componentWillReceiveProps(newProps){
-        let propsdata=newProps.projectdetail;
-        // detailuser:{projectCode:"",projectName:"",enquiryDate:"",projectState:"",                             projectStatus:"",projectDiscipline:"",projectType:"",projectSubType:"",                  projectCategory:"",referredBy:"",area:"",enquiryValue:"",                                enquiryDesignFee:""}
-        this.setState({detailuser:{
-            projectName:propsdata.projectName,
-            enquiryDate:propsdata.enquiryDate,
-            projectState:propsdata.projectState,
-            projectStatus:propsdata.projectStatus,
-            projectDiscipline:propsdata.projectDiscipline,
-            projectType:propsdata.projectType,
-            projectSubType:propsdata.projectSubType,
-            projectCategory:propsdata.projectCategory,
-            referredBy:propsdata.referredBy,
-            area:propsdata.area,
-            enquiryValue:propsdata.enquiryValue,
-            enquiryDesignFee:propsdata.enquiryDesignFee
-        }})
-    }
+    // componentWillReceiveProps(newProps){
+    //     let propsdata=newProps.projectdetail;
+    //     // detailuser:{projectCode:"",projectName:"",enquiryDate:"",projectState:"",                             projectStatus:"",projectDiscipline:"",projectType:"",projectSubType:"",                  projectCategory:"",referredBy:"",area:"",enquiryValue:"",                                enquiryDesignFee:""}
+    //     this.setState({detailuser:{
+    //         projectName:propsdata.projectName,
+    //         enquiryDate:propsdata.enquiryDate,
+    //         projectState:propsdata.projectState,
+    //         projectStatus:propsdata.projectStatus,
+    //         projectDiscipline:propsdata.projectDiscipline,
+    //         projectType:propsdata.projectType,
+    //         projectSubType:propsdata.projectSubType,
+    //         projectCategory:propsdata.projectCategory,
+    //         referredBy:propsdata.referredBy,
+    //         area:propsdata.area,
+    //         enquiryValue:propsdata.enquiryValue,
+    //         enquiryDesignFee:propsdata.enquiryDesignFee
+    //     }})
+    // }
     render(){
        // console.log(this.state.detailuser)
            let dataequire=null
@@ -368,10 +453,13 @@ class Projectdetail extends Component{
                         </div>
                     </div>
                     </div>
+                    <div className="col-md-12">
+                         {this.state.msgError!==null?<p className="btn btn-danger">{this.state.msgError}</p>:null}
+                    </div>
                     <div className="row mgtop">
                     <div className="col-sm-12">
                         <div className="form-group">
-                        <button type="button" userdetail={this.state.detailuser} onClick={(e)=>this.props.tabchange(e,'Project Tracker')}  className="btn btn-default fix-button" style={{marginRight:'8px'}} >Continue</button>
+                        <button type="button" userdetail={this.state.detailuser} onClick={this.nextTab} className="btn btn-default fix-button" style={{marginRight:'8px'}} >Continue</button>
                         {/* onClick={(e)=>this.props.tabchange(e,'Project Tracker')} */}
                         <button type="button" className="btn btn-default fix-button clr-new">Close</button>
                         </div>
@@ -385,3 +473,4 @@ class Projectdetail extends Component{
 export default Projectdetail;
   
 
+// onClick={(e)=>this.props.tabchange(e,'Project Tracker')} 
