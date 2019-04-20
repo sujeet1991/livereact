@@ -85,6 +85,13 @@ class Projectdetail extends Component{
 
     componentWillMount(){
         
+       
+        this.projectState();
+        this.projectStatus();
+        this.projectDiscipline();
+        this.projectType();
+        this.projectSubType();
+        this.projectCategory();
         var projectdeetail=localStorage.getItem("getproject");
         let getdata=JSON.parse(projectdeetail);
         this.setState({detailuser:{
@@ -101,12 +108,6 @@ class Projectdetail extends Component{
             enquiryValue:getdata.enquiryValue,
             enquiryDesignFee:getdata.enquiryDesignFee
         }})
-        this.projectState();
-        this.projectStatus();
-        this.projectDiscipline();
-        this.projectType();
-        this.projectSubType();
-        this.projectCategory();
         
     }
 
@@ -259,7 +260,7 @@ class Projectdetail extends Component{
     //     }})
     // }
     render(){
-       // console.log(this.state.detailuser)
+    console.log(this.state.detailuser)
            let dataequire=null
             if((this.state.detailuser).length!==0){
                

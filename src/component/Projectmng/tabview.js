@@ -32,7 +32,7 @@ class tableview extends Component{
         // console.log(fields)
     }
 
-    componentDidMount(){
+    componentWillMount(){
       let getid= this.props.match.params.id;
       if(getid){
           let datathis= this;
@@ -44,10 +44,12 @@ class tableview extends Component{
               },
               body: JSON.stringify({"projectId": getid} )
             }).then(res=>res.json()).then(function(data){
+                localStorage.setItem('getproject',JSON.stringify(data));
                 datathis.setState({
                     apidata:data
                 });
-                localStorage.setItem('getproject',JSON.stringify(data));
+                console.log("tabview"+data);
+                
 
             });
         }

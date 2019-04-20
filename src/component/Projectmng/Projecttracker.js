@@ -157,16 +157,23 @@ export default class Projecttracker extends Component {
    
       console.log(this.state.projecttrack)
       let appointmentDatenew,lostDatenew,projectStartDatenew,projectHoldDatenew,targetDatenew,actualCompletionDatenew=null;
-     
-      if(this.state.projecttrack){
-       
-        let {appointmentDate,lostDate,projectStartDate,projectHoldDate,targetDate,actualCompletionDate}= this.state.projecttrack;
-        
+      let {appointmentDate,lostDate,projectStartDate,projectHoldDate,targetDate,actualCompletionDate}= this.state.projecttrack;
+      if(appointmentDate!==null){
         appointmentDatenew=appointmentDate.split(" ")[0];
+       }
+      if(lostDate!==null){
         lostDatenew=lostDate.split(" ")[0];
+      }
+      if(projectStartDate!==null){
         projectStartDatenew=projectStartDate.split(" ")[0];
+      }
+      if(projectHoldDate!==null){
         projectHoldDatenew=projectHoldDate.split(" ")[0];
+      }
+      if(targetDate!==null){
         targetDatenew=targetDate.split(" ")[0];
+      }
+      if(actualCompletionDate!==null){
         actualCompletionDatenew=actualCompletionDate.split(" ")[0];
       }
      

@@ -10,6 +10,24 @@ class table extends Component {
     priceFormatter=(cell, row)=>{   
         return `<Link to="#"> ${cell}</Link>`;
       }
+
+      getidgetdetail=(id)=>{
+        
+        fetch('http://taskmanagement.lpipl.com/index.php/api/getProjectDetails', {
+             method: 'POST',
+             headers: {
+               'Accept': 'application/json',
+               'Content-Type': 'application/json'
+             },
+             body: JSON.stringify({"projectId": id} )
+           }).then(res=>res.json()).then(function(data){
+               localStorage.setItem('getproject',JSON.stringify(data));
+               
+         
+               
+
+           });
+      }
   
     render(){
         
@@ -48,7 +66,8 @@ class table extends Component {
                                                     <tr key={index}>
                                                     <td>{curr.projectName}</td>
                                                     <td>{curr.projectCode}</td>
-                                                    <td><Link to={`Projectmngtab/${curr.projectId}`} >View</Link></td>
+                                                    <td><Link to={`Projectmngtab/${curr.projectId}`}  onClick={this.getidgetdetail(curr.projectId)}>View</Link></td>
+                                                    
                                                 </tr>
                                                 )
                                             })}
