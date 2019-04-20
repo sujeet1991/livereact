@@ -6,7 +6,9 @@ export default class Sitedetail extends Component {
   constructor(props){
     super(props)
     this.state={
-        siteform:{"projectId":"","site":{"id":"","siteName":"","addressLine1":"","addressLine2":"","city":"","state":"","country":"","zipCode":""}}
+        siteform:{"projectId":"","site":{"id":"","siteName":"","addressLine1":"","addressLine2":"","city":"","state":"","country":"","zipCode":""}},
+        msgError:null,
+        msg:null
 
     }
   }
@@ -39,19 +41,60 @@ export default class Sitedetail extends Component {
   
     let getsatedata=this.state.siteform;
     console.log(getsatedata);
+    let valistate= this.state.siteform.site;
+
+    if(valistate.addressLine1===""){
+      this.setState({
+        msgError:"addressLine1 is mandatory"
+      })
+    }else if(valistate.addressLine2===""){
+      this.setState({
+        msgError:"addressLine2 is mandatory"
+      })
+    }else if(valistate.city===""){
+      this.setState({
+        msgError:"city is mandatory"
+      })
+    }else if(valistate.state===""){
+      this.setState({
+        msgError:"state is mandatory"
+      })
+    }else if(valistate.country===""){
+      this.setState({
+        msgError:"country is mandatory"
+      })
+    }else if(valistate.zipCode===""){
+      this.setState({
+        msgError:"zipCode is mandatory"
+      })
+    }else{
+      this.setState({
+        msgError:null
+      });
+      (async () => {
+        const rawResponse = await fetch('http://taskmanagement.lpipl.com/index.php/api/saveSiteDetails', {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(getsatedata)
+        });
+        const content = await rawResponse.json();
+        this.setState({
+          msg:content.message
+        })
+        setTimeout(function(){
+          this.setState({
+            msg:null
+          })
+        }.bind(this),5000)
+       
+      })();
+    }
     
-   (async () => {
-    const rawResponse = await fetch('http://taskmanagement.lpipl.com/index.php/api/saveSiteDetails', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(getsatedata)
-    });
-    const content = await rawResponse.json();
-    alert(content.message)
-  })();
+    
+   
 
 
 
@@ -98,6 +141,12 @@ export default class Sitedetail extends Component {
           </div>
         </div>
         <div className="row mgtop">
+          <div className="col-md-12">
+            {this.state.msg!==null?<p className="btn btn-success">{this.state.msg}</p>:null}
+
+            {this.state.msgError!==null?<p className="btn btn-danger">{this.state.msgError}</p>:null}
+            
+          </div>
           <div className="col-sm-12">
             <div className="form-group">
               <button type="button" className="btn btn-default fix-button" onClick={((e)=>this.savesitedata())} style={{marginRight:'8px'}}>Save</button>
