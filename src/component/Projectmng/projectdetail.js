@@ -263,13 +263,12 @@ class Projectdetail extends Component{
     console.log(this.state.detailuser)
            let dataequire=null
             if((this.state.detailuser).length!==0){
-               
-                let {enquiryDate}=this.state.detailuser;
-                dataequire=enquiryDate.split(" ")[0];
-                
-               
+            let {enquiryDate}=this.state.detailuser;
+                if(enquiryDate!==null){
+                    dataequire=enquiryDate.split(" ")[0];
+                }
             }
-           
+          
         return (
             <div className="form-box-mgmt">
         

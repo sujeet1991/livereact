@@ -34,6 +34,7 @@ class tableview extends Component{
 
     componentWillMount(){
       let getid= this.props.match.params.id;
+     
       if(getid){
           let datathis= this;
          fetch('http://taskmanagement.lpipl.com/index.php/api/getProjectDetails', {
