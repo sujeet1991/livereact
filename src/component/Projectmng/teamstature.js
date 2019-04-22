@@ -9,19 +9,66 @@ class Teamstruture extends Component{
         this.state={
             show:false,
             teamrecord:[],
-            teamuser:{"teamId":"","projectId":geturl[getnumber],"employeeId":"3","roleId":"3","startDate":"","endDate":"","allocatedHours":"","createdBy":"","modifiedBy":"2019-04-10 00:00:00"},
+            teamuser:{"teamId":"","projectId":geturl[getnumber],"employeeId":"","roleId":"","startDate":"","endDate":"","allocatedHours":"","createdBy":"","modifiedBy":""},
             msgsuccess:null,
+            getrollData:[],
+            getempName:[],
+            getadditionalData:{projectName:""}
 
         }
     }
   componentWillMount(){
       var teamdata= localStorage.getItem('getproject');
+      
       let teamdisplay= JSON.parse(teamdata);
+      console.log(teamdisplay.projectName)
       this.setState({
-        teamrecord:teamdisplay.team
-      })
+        teamrecord:teamdisplay.team,
+        getadditionalData:{projectName:teamdisplay.projectName}
+
+      });
+      this.getrolldata();
+      this.getempNamedata();
      
   }  
+  getrolldata(){
+    (async () => {
+        const rawResponse = await fetch('http://taskmanagement.lpipl.com/index.php/api/getSelectedParamDetails', {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({"tenantId" : "1","paramName" : "Role" })
+        });
+        const content = await rawResponse.json();
+        if(content.result=="success"){
+            this.setState({
+                getrollData:content.params 
+            })
+        }
+        
+      })();   
+      
+  }
+  getempNamedata(){
+    (async () => {
+        const rawResponse = await fetch('http://taskmanagement.lpipl.com/index.php/api/getEmployees', {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({"employeeName":"","pageSize":"0","pageNumber":"0"})
+        });
+        const content = await rawResponse.json();
+        this.setState({
+            getempName:content.employees
+        })
+        
+      })();    
+
+  }
 
 
     handleshow=(name,e)=>{
@@ -45,8 +92,6 @@ class Teamstruture extends Component{
         }else{
             teamstate[teamname]=e.target.value;
         }
-        
-
         this.setState({teamuser:teamstate})
     }
     saveteamData=(e)=>{
@@ -61,7 +106,7 @@ class Teamstruture extends Component{
               body: JSON.stringify(teamdata)
             });
             const content = await rawResponse.json();
-            console.log(content);
+            //console.log(content);
             this.setState({
                 msgsuccess:content.result
             })
@@ -123,33 +168,45 @@ class Teamstruture extends Component{
                 <div className="col-sm-4">
                     <div className="form-group">
                     <label>Project Name</label>
-                    <input type="text" className="form-control" name="projectName"/>
+                    <input type="text" className="form-control" value={this.state.getadditionalData.projectName||""} disabled="disabled" name="projectName"/>
                     </div>
                 </div>
                 <div className="col-sm-4">
                     <div className="form-group">
                     <label>Code</label>
-                    <input type="number" className="form-control" name="code"/>
+                    <input type="number" disabled="disabled"  className="form-control" name="code"/>
                     </div>
                 </div>
                 <div className="col-sm-4">
                     <div className="form-group">
                     <label>Employee Name</label>
-                    <select className="selectpicker form-control" onChange={(e)=>this.teamonChange('employeeName',e)} name="employeeName" ref="employeeName" data-live-search="true">
-                        <option>Akash</option>
-                        <option>Anil</option>
-                        <option>Manish</option>
-                        <option>Vijay</option>
-                        <option>Elizabeth Warren</option>
+                    <select className="selectpicker form-control" onChange={(e)=>this.teamonChange('employeeId',e)} name="employeeName" ref="employeeName" data-live-search="true">
+                          {this.state.getempName.length!==0?
+                            this.state.getempName.map((curr,index)=>{
+                                return(
+                                    <option value={curr.id} key={index}>{curr.employeeName}</option>
+                                )
+                            }):null
+                          } 
+                       
                     </select>
                     </div>
                 </div>
                 <div className="col-sm-4">
                     <div className="form-group">
                     <label>Role in Project </label>
-                    <select name="role" ref="role" name="role" onChange={(e)=>this.teamonChange('role',e)} className="form-control">
-                        <option value="designer">Designer</option>
-                        <option value="developer">Developer</option>
+                    <select name="role" ref="role" name="role" onChange={(e)=>this.teamonChange('roleId',e)} className="form-control">
+                        {this.state.getrollData.length!==0? 
+                            this.state.getrollData.map((curr,index)=>{
+                                console.log(curr)
+                                return(
+                                    <option value={curr.id} key={index}>{curr.paramValue}</option>
+                                )
+                            })
+                           
+                        :null}   
+                       
+                       
                     </select>
                     </div>
                 </div>

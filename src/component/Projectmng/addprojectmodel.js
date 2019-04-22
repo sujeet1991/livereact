@@ -9,7 +9,7 @@ class confimodel extends Component{
         this.state = {
             startDate: new Date(),
             tabactive:'tab1',
-            formname:{"projectId":"","projectName":"","enquiryDate":"1900-01-01 00:00:00","referredBy":"","contactName":"","contactEmail":"","contactPhone":"","addressLine1":"","addressLine2":"","city":"","state":"","zipCode":"","area":"","projectSource": "Manual","crmId": "","projectStatus":0,"projectState":"","projectDiscipline":0,"projectType":0,"projectSubType":0,"projectCategory":0,"enquiryValue":0,"enquiryDesignFee":0,"appointmentDate": "","lostDate": "","projectStartDate":"","projectHoldDate": "","completionTarget":0, "targetDate": "","actualCompletionDate":"","jobStatus": 0,"awardedProjectValue":0,"createdBy":"","dateCreated": "","modifiedBy":""},
+            formname:{"projectId":"","projectName":"","enquiryDate":"1900-01-01 00:00:00","referredBy":"","contactName":"","contactEmail":"","contactPhone":"","addressLine1":"","addressLine2":"","city":"","state":"","zipCode":"","area":"","projectSource": "Manual","crmId": "","projectStatus":0,"projectState":"","projectDiscipline":0,"projectType":0,"projectSubType":0,"projectCategory":0,"enquiryValue":0,"enquiryDesignFee":0,"appointmentDate": "","lostDate": "","projectStartDate":"","projectHoldDate": "","completionTarget":0, "targetDate": "","actualCompletionDate":"","jobStatus": 0,"awardedProjectValue":0,"createdBy":"","dateCreated": "","modifiedBy":"","tenantId":1},
             errors:{}
         };
        //this.changehandle=this.changehandle.bind(this);
