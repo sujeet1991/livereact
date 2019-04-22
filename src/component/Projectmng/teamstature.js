@@ -11,6 +11,7 @@ class Teamstruture extends Component{
             teamrecord:[],
             teamuser:{"teamId":"","projectId":geturl[getnumber],"employeeId":"3","roleId":"3","startDate":"","endDate":"","allocatedHours":"","createdBy":"","modifiedBy":"2019-04-10 00:00:00"},
             msgsuccess:null,
+            filterdata:{}
 
         }
     }
@@ -24,11 +25,11 @@ class Teamstruture extends Component{
   }  
 
 
-    handleshow=(name,e)=>{
-        alert(name)
-        this.setState({
-            show:true,
-            })
+    handleshow=(data,e)=>{
+        alert(data);
+        // this.setState({
+        //     show:true,
+        //     })
 
     }
     
@@ -82,7 +83,7 @@ class Teamstruture extends Component{
         
         return(
             <React.Fragment>
-                <button type="button" onClick={(e)=>this.handleshow(e)} className="btn btn-default fix-button">Add Resource</button>
+                <button type="button" onClick={(e)=>this.handleshow("", e)} className="btn btn-default fix-button">Add Resource</button>
                 <div className="row" style={{marginTop:'10px'}}>
                     <div className="col-xs-12">
                     <table id="example1 1" className="table table-bordered table-striped table-responsive">
@@ -118,7 +119,7 @@ class Teamstruture extends Component{
                     </div>
                 </div>
 
-               {this.state.show===true? <Modelteam title="Edit / Add Resources To Project" closemodel={this.handlehide}>
+               {this.state.show===true? <Modelteam  title="Edit / Add Resources To Project" closemodel={this.handlehide}>
                <div className="row">
                 <div className="col-sm-4">
                     <div className="form-group">
