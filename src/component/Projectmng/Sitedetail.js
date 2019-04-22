@@ -55,7 +55,7 @@ export default class Sitedetail extends Component {
       this.setState({
         msgError:"city is mandatory"
       })
-    }else if(valistate.state===""){
+    }else if(this.refs.state.value===""){
       this.setState({
         msgError:"state is mandatory"
       })

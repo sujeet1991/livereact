@@ -24,6 +24,8 @@ class Projectdetail extends Component{
 
     nextTab(e){
         var feName=this.state.detailuser;
+        // alert(this.refs.projectState.value);
+        // return false;
         if(feName.projectName===""){
             this.setState({
                 msgError:'Project Name is mandatory'
@@ -32,27 +34,27 @@ class Projectdetail extends Component{
             this.setState({
                 msgError:'Enquiry Date is mandatory'
             })
-        }else if(feName.projectState===""){
+        }else if(this.refs.projectState.value===""){
             this.setState({
                 msgError:'Project State is mandatory'
             })
-        }else if(feName.projectStatus===""){
+        }else if(this.refs.projectStatus.value===""){
             this.setState({
                 msgError:'Project Status is mandatory'
             })
-        }else if(feName.projectDiscipline===""){
+        }else if(this.refs.projectDiscipline.value===""){
             this.setState({
                 msgError:'Project Discipline is mandatory'
             })
-        }else if(feName.projectType===""){
+        }else if(this.refs.projectType.value===""){
             this.setState({
                 msgError:'Project type is mandatory'
             })
-        }else if(feName.projectSubType===""){
+        }else if(this.refs.projectSubType.value===""){
             this.setState({
                 msgError:'Project Subtype is mandatory'
             })
-        }else if(feName.projectCategory===""){
+        }else if(this.refs.projectCategory.value===""){
             this.setState({
                 msgError:'Project Category is mandatory'
             })
@@ -260,7 +262,7 @@ class Projectdetail extends Component{
     //     }})
     // }
     render(){
-    console.log(this.state.detailuser)
+    console.log("sujeet"+this.state.detailuser)
            let dataequire=null
             if((this.state.detailuser).length!==0){
             let {enquiryDate}=this.state.detailuser;
@@ -302,10 +304,11 @@ class Projectdetail extends Component{
                         <div className="form-group">
                         <label>Project State </label> 
 
-                        <select name="projectState" defaultValue={'DEFAULT'} ref="projectState" className="form-control" onChange={(e)=>this.changeHandler('projectState',e)}>
+                        <select name="projectState"    defaultValue={'DEFAULT'} ref="projectState" className="form-control" onChange={(e)=>this.changeHandler('projectState',e)}>
                         {this.state.projectState==='Invalid tenant, please contact system admin'?
                             <option>No Data found</option>:
                             this.state.projectState.map((curr,index)=>{
+                                
                                 let highlight=null;
                                 if(curr.id===this.state.detailuser.projectState){
                                     highlight='selected'

@@ -109,7 +109,7 @@ export default class Projecttracker extends Component {
         this.setState({
           msgerror:'Actual CompletionDate mandatory'
         })
-      }else if(projecttrack.jobStatus===""){
+      }else if(this.refs.jobStatus.value===""){
         this.setState({
           msgerror:'Job Status mandatory'
         })
