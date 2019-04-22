@@ -11,13 +11,10 @@ class Teamstruture extends Component{
             teamrecord:[],
             teamuser:{"teamId":"","projectId":geturl[getnumber],"employeeId":"","roleId":"","startDate":"","endDate":"","allocatedHours":"","createdBy":"","modifiedBy":""},
             msgsuccess:null,
-<<<<<<< HEAD
             getrollData:[],
             getempName:[],
-            getadditionalData:{projectName:""}
-=======
+            getadditionalData:{projectName:"",projectCode:""},
             filterdata:{}
->>>>>>> 25e27bf797e65324724da381a8bda9052bc5a1a0
 
         }
     }
@@ -25,10 +22,10 @@ class Teamstruture extends Component{
       var teamdata= localStorage.getItem('getproject');
       
       let teamdisplay= JSON.parse(teamdata);
-      console.log(teamdisplay.projectName)
+      console.log(teamdisplay.projectCode)
       this.setState({
         teamrecord:teamdisplay.team,
-        getadditionalData:{projectName:teamdisplay.projectName}
+        getadditionalData:{projectName:teamdisplay.projectName,projectCode:teamdisplay.projectCode}
 
       });
       this.getrolldata();
@@ -76,10 +73,10 @@ class Teamstruture extends Component{
 
 
     handleshow=(data,e)=>{
-        alert(data);
-        // this.setState({
-        //     show:true,
-        //     })
+       
+        this.setState({
+            show:true,
+            })
 
     }
     
@@ -178,7 +175,7 @@ class Teamstruture extends Component{
                 <div className="col-sm-4">
                     <div className="form-group">
                     <label>Code</label>
-                    <input type="number" disabled="disabled"  className="form-control" name="code"/>
+                    <input type="text" disabled="disabled" value={this.state.getadditionalData.projectCode||""}  className="form-control" name="projectCode"/>
                     </div>
                 </div>
                 <div className="col-sm-4">

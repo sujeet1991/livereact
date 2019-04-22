@@ -97,6 +97,7 @@ class Projectdetail extends Component{
         var projectdeetail=localStorage.getItem("getproject");
         let getdata=JSON.parse(projectdeetail);
         this.setState({detailuser:{
+            projectCode:getdata.projectCode, 
             projectName:getdata.projectName,
             enquiryDate:getdata.enquiryDate,
             projectState:getdata.projectState,
@@ -279,7 +280,7 @@ class Projectdetail extends Component{
                     <div className="col-sm-4">
                         <div className="form-group">
                         <label>Project</label> 
-                        <input type="text" name="projectCode" onChange={(e)=>this.changeHandler('projectCode',e)} ref="projectCode" placeholder="VP/123/2019" disabled="disabled" className="form-control"/> 
+                        <input type="text" name="projectCode" onChange={(e)=>this.changeHandler('projectCode',e)} ref="projectCode" placeholder="VP/123/2019" disabled="disabled" value={this.state.detailuser.projectCode} className="form-control"/> 
                         </div>
                     </div>
                     <div className="col-sm-4">
