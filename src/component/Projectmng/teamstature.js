@@ -9,12 +9,13 @@ class Teamstruture extends Component{
         this.state={
             show:false,
             teamrecord:[],
-            teamuser:{"teamId":"","projectId":geturl[getnumber],"employeeId":"","roleId":"","startDate":"","endDate":"","allocatedHours":"","createdBy":"","modifiedBy":""},
+            teamuser:{"teamId":"","projectId":geturl[getnumber],"employeeId":"","roleId":"","startDate":"","endDate":"","allocatedHours":"","createdBy":"2019-04-23 00:00:00","modifiedBy":"2019-04-23 00:00:00"},
             msgsuccess:null,
             getrollData:[],
             getempName:[],
             getadditionalData:{projectName:"",projectCode:""},
-            filterdata:{}
+            errors:{},
+            filterdata:{},
 
         }
     }
@@ -95,36 +96,85 @@ class Teamstruture extends Component{
         }
         this.setState({teamuser:teamstate})
     }
+
+teamValidation(){
+    let teamdata= this.state.teamuser;
+    let isValid=true;
+    let errors={};
+    
+    if(this.refs.employeeId.value==""){
+        isValid=false;
+        errors['employeeId']="Select Employee Name ";
+
+    }
+    if(this.refs.roleId.value==""){
+        isValid=false;
+        errors['roleId']="Select Role ";
+
+    }
+   
+     if(teamdata.startDate==""){
+        isValid=false;
+        errors['startDate']="Please select Start date ";
+    }
+     if(teamdata.endDate==""){
+        isValid=false;
+        errors['endDate']="Please select End date ";
+    }
+     if(teamdata.endDate===""){
+        isValid=false;
+        errors['endDate']="Please select End date ";
+    }
+    if(teamdata.allocatedHours===""){
+        isValid=false;
+        errors['allocatedHours']="Please enter allocatedHours ";
+    }
+    this.setState({errors: errors});
+    return isValid;
+}
+
+
     saveteamData=(e)=>{
         let teamdata= this.state.teamuser;
-        (async () => {
-            const rawResponse = await fetch('http://taskmanagement.lpipl.com/index.php/api/saveResource', {
-              method: 'POST',
-              headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify(teamdata)
-            });
-            const content = await rawResponse.json();
-            //console.log(content);
-            this.setState({
-                msgsuccess:content.result
-            })
-            setTimeout(function(){
+        console.log("ss"+teamdata)
+        var CheckValid=this.teamValidation();
+        if(CheckValid){
+            (async () => {
+                const rawResponse = await fetch('http://taskmanagement.lpipl.com/index.php/api/saveResource', {
+                  method: 'POST',
+                  headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify(teamdata)
+                });
+                const content = await rawResponse.json();
+                //console.log(content);
                 this.setState({
                     msgsuccess:content.result
                 })
-                window.location.reload();
+                setTimeout(function(){
+                    this.setState({
+                        msgsuccess:content.result
+                    })
+                    window.location.reload();
+                    
+                }.bind(this),5000)
                 
-            }.bind(this),5000)
-            
-           
-          })()
+               
+              })()
+        }
+        
         }
 
     render(){
     console.log(this.state.teamuser)
+    var errorstyle = {
+        color: 'red',
+        position:'absolute',
+        fontSize:'12px',
+    };
+    
         
         return(
             <React.Fragment>
@@ -181,7 +231,8 @@ class Teamstruture extends Component{
                 <div className="col-sm-4">
                     <div className="form-group">
                     <label>Employee Name</label>
-                    <select className="selectpicker form-control" onChange={(e)=>this.teamonChange('employeeId',e)} name="employeeName" ref="employeeName" data-live-search="true">
+                    <select value={this.state.teamuser.employeeId} className="selectpicker form-control" onChange={(e)=>this.teamonChange('employeeId',e)} name="employeeId" ref="employeeId" data-live-search="true">
+                    <option value="">--- Select ---</option>
                           {this.state.getempName.length!==0?
                             this.state.getempName.map((curr,index)=>{
                                 return(
@@ -191,12 +242,14 @@ class Teamstruture extends Component{
                           } 
                        
                     </select>
+                    <span style={errorstyle}>{this.state.errors["employeeId"]}</span>
                     </div>
                 </div>
                 <div className="col-sm-4">
                     <div className="form-group">
                     <label>Role in Project </label>
-                    <select name="role" ref="role" name="role" onChange={(e)=>this.teamonChange('roleId',e)} className="form-control">
+                    <select  ref="roleId" name="roleId" onChange={(e)=>this.teamonChange('roleId',e)} className="form-control">
+                    <option value="">--- Select ---</option>
                         {this.state.getrollData.length!==0? 
                             this.state.getrollData.map((curr,index)=>{
                                 console.log(curr)
@@ -209,6 +262,7 @@ class Teamstruture extends Component{
                        
                        
                     </select>
+                    <span style={errorstyle}>{this.state.errors["roleId"]}</span>
                     </div>
                 </div>
                 <div className="col-sm-4">
@@ -219,6 +273,7 @@ class Teamstruture extends Component{
                         <i className="fa fa-calendar"></i>
                         </div>
                         <input type="date" name="startDate" onChange={(e)=>this.teamonChange('startDate',e)} ref="startDate" className="form-control pull-right" id=""/>
+                        <span style={errorstyle}>{this.state.errors["startDate"]}</span>
                     </div>
                     
                     </div>
@@ -231,6 +286,7 @@ class Teamstruture extends Component{
                         <i className="fa fa-calendar"></i>
                         </div>
                         <input type="date" name="endDate" onChange={(e)=>this.teamonChange('endDate',e)}  ref="endDate" className="form-control pull-right" id=""/>
+                        <span style={errorstyle}>{this.state.errors["endDate"]}</span>
                     </div>
                     
                     </div>
@@ -239,6 +295,7 @@ class Teamstruture extends Component{
                     <div className="form-group">
                     <label>Allocated Hour</label>
                     <input type="text" className="form-control" onChange={(e)=>this.teamonChange('allocatedHours',e)} ref="allocatedHours" name="allocatedHours"/> 
+                    <span style={errorstyle}>{this.state.errors["allocatedHours"]}</span>
                     </div>
                 </div>
             </div>
