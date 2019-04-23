@@ -17,70 +17,96 @@ class Projectdetail extends Component{
             projectCategory:[],
             detailuser:{},
             msgError:null,
+            errors:{}
 
         }
       this.nextTab = this.nextTab.bind(this);
     }
+    validationProjectDetail(){
+        var feName=this.state.detailuser;
+        let errors={};
+        let isvalidform=true;
+        if (feName.projectName === "") {
+            isvalidform=false;
+            errors['projectName']="Enter a name";
+        }
+        if (!/^[a-zA-Z]*$/g.test(feName.projectName)) {
+            isvalidform=false;
+            errors['projectName']="Enter a only Character";
+           
+        }   
+       
+
+        if(feName.enquiryDate===" 00:00:00"){
+            isvalidform=false;
+            errors['enquiryDate']="select a Enquiry Date";
+        } 
+        if(feName.enquiryDate===""){
+            isvalidform=false;
+            errors['enquiryDate']="select a Enquiry Date";
+        } 
+       
+        if (this.refs.projectState.value === "") {
+            isvalidform=false;
+            errors['projectState']="Select State";
+        }
+        if (this.refs.projectStatus.value === "") {
+            isvalidform=false;
+            errors['projectStatus']="Select Status";
+        }
+        if (this.refs.projectDiscipline.value === "") {
+            isvalidform=false;
+            errors['projectDiscipline']="Select Project Discipline";
+        }
+        if (this.refs.projectType.value === "") {
+            isvalidform=false;
+            errors['projectType']="Select Project Type";
+        }
+        if (this.refs.projectSubType.value === "") {
+            isvalidform=false;
+            errors['projectSubType']="Select Project Sub Type";
+        }
+        if (this.refs.projectCategory.value === "") {
+            isvalidform=false;
+            errors['projectCategory']="Select Project Category";
+        }
+        if (feName.referredBy === "") {
+            isvalidform=false;
+            errors['referredBy']="Enter a referred Name";
+        }
+        if (!/^[a-zA-Z]*$/g.test(feName.referredBy)) {
+            isvalidform=false;
+            errors['referredBy']="Enter a only Character";
+           
+        }  
+        if (feName.area === "") {
+            isvalidform=false;
+            errors['area']="Enter a area";
+        }
+        if (feName.enquiryValue === "") {
+            isvalidform=false;
+            errors['area']="Enter a Enquiry Value";
+        }
+        if (feName.enquiryDesignFee === "") {
+            isvalidform=false;
+            errors['enquiryDesignFee']="Enter a Enquiry DesignFee";
+        }
+
+        this.setState({
+            errors:errors
+        })
+        return isvalidform;
+
+    }
 
     nextTab(e){
         var feName=this.state.detailuser;
-        // alert(this.refs.projectState.value);
-        // return false;
-        if(feName.projectName===""){
-            this.setState({
-                msgError:'Project Name is mandatory'
-            })
-        }else if(feName.enquiryDate===""){
-            this.setState({
-                msgError:'Enquiry Date is mandatory'
-            })
-        }else if(this.refs.projectState.value===""){
-            this.setState({
-                msgError:'Project State is mandatory'
-            })
-        }else if(this.refs.projectStatus.value===""){
-            this.setState({
-                msgError:'Project Status is mandatory'
-            })
-        }else if(this.refs.projectDiscipline.value===""){
-            this.setState({
-                msgError:'Project Discipline is mandatory'
-            })
-        }else if(this.refs.projectType.value===""){
-            this.setState({
-                msgError:'Project type is mandatory'
-            })
-        }else if(this.refs.projectSubType.value===""){
-            this.setState({
-                msgError:'Project Subtype is mandatory'
-            })
-        }else if(this.refs.projectCategory.value===""){
-            this.setState({
-                msgError:'Project Category is mandatory'
-            })
-        }else if(feName.referredBy===""){
-            this.setState({
-                msgError:'Referred By is mandatory'
-            })
-        }else if(feName.area===""){
-            this.setState({
-                msgError:'area is mandatory'
-            })
-        }else if(feName.enquiryValue===""){
-            this.setState({
-                msgError:'enquiryValue is mandatory'
-            })
-        }
-        else if(feName.enquiryDesignFee===""){
-            this.setState({
-                msgError:'enquiryDesignFee is mandatory'
-            })
-        }else{
-            this.setState({
-                msgError:null
-            });
-            this.props.tabchange(e,'Project Tracker');
-        }
+        var checkValidation= this.validationProjectDetail();
+        
+            if(checkValidation){
+                this.props.tabchange(e,'Project Tracker'); 
+            }
+
     
         
     }
@@ -263,7 +289,12 @@ class Projectdetail extends Component{
     //     }})
     // }
     render(){
-    console.log("sujeet"+this.state.detailuser)
+        var errorstyle = {
+            color: 'red',
+            position:'absolute',
+            fontSize:'12px',
+        };
+    console.log(this.state.detailuser)
            let dataequire=null
             if((this.state.detailuser).length!==0){
             let {enquiryDate}=this.state.detailuser;
@@ -287,6 +318,7 @@ class Projectdetail extends Component{
                         <div className="form-group">
                         <label>Project Name</label> 
                             <input type="text"  name="projectName" className="form-control" ref="projectName" onChange={(e)=>this.changeHandler('projectName',e)} value={this.state.detailuser.projectName}/> 
+                            <span style={errorstyle}>{this.state.errors["projectName"]}</span>
                         </div>
                     </div>
                     <div className="col-sm-4">
@@ -297,6 +329,7 @@ class Projectdetail extends Component{
                             <i className="fa fa-calendar"></i>
                             </div>
                             <input type="date" className="form-control pull-right"  onChange={(e)=>this.changeHandler('enquiryDate',e)} ref="enquiryDate" value={dataequire || ''} name="enquiryDate"/>
+                            <span style={errorstyle}>{this.state.errors["enquiryDate"]}</span>
                         </div>
                     
                         </div>
@@ -306,6 +339,7 @@ class Projectdetail extends Component{
                         <label>Project State </label> 
 
                         <select name="projectState"    defaultValue={'DEFAULT'} ref="projectState" className="form-control" onChange={(e)=>this.changeHandler('projectState',e)}>
+                        <option value="">--- Select ---</option>
                         {this.state.projectState==='Invalid tenant, please contact system admin'?
                             <option>No Data found</option>:
                             this.state.projectState.map((curr,index)=>{
@@ -321,12 +355,14 @@ class Projectdetail extends Component{
                             })
                          } 
                         </select>
+                        <span style={errorstyle}>{this.state.errors["projectState"]}</span>
                         </div>
                     </div>
                     <div className="col-sm-4">
                         <div className="form-group">
                         <label>Project Status</label> 
                         <select name="projectStatus" onChange={(e)=>this.changeHandler('projectStatus',e)} ref="projectStatus" className="form-control">
+                        <option value="">--- Select ---</option>
                         {this.state.projectStatus==='Invalid tenant, please contact system admin'?
                             <option>No Data found</option>:
                             this.state.projectStatus.map((curr,index)=>{
@@ -342,12 +378,14 @@ class Projectdetail extends Component{
                          } 
 
                         </select>
+                        <span style={errorstyle}>{this.state.errors["projectStatus"]}</span>
                         </div>
                     </div>
                     <div className="col-sm-4">
                         <div className="form-group">
                         <label>Project Discipline</label> 
                         <select name="projectDiscipline" onChange={(e)=>this.changeHandler('projectDiscipline',e)}  defaultValue={'DEFAULT'} ref="projectDiscipline" className="form-control">
+                        <option value="">--- Select ---</option>
                          {this.state.projectDiscipline==='Invalid tenant, please contact system admin'?
                             <option>No Data found</option>:
                             this.state.projectDiscipline.map((curr,index)=>{
@@ -365,12 +403,15 @@ class Projectdetail extends Component{
                            
                             
                         </select>
+                        <span style={errorstyle}>{this.state.errors["projectDiscipline"]}</span>
                         </div>
                     </div>
                     <div className="col-sm-4">
                         <div className="form-group">
                         <label>Project Type</label> 
                         <select name="projectType" onChange={(e)=>this.changeHandler('projectType',e)}  ref="projectType" className="form-control">
+                        <option value="">--- Select ---</option>
+                        
                         {this.state.projectType==='Invalid tenant, please contact system admin'?
                             <option>No Data found</option>:
                             this.state.projectType.map((curr,index)=>{
@@ -386,6 +427,7 @@ class Projectdetail extends Component{
                          } 
                             
                         </select>
+                        <span style={errorstyle}>{this.state.errors["projectType"]}</span>
                         </div>
                     </div>
                     <div className="col-sm-4">
@@ -393,6 +435,7 @@ class Projectdetail extends Component{
                         <label>Project Subtype</label> 
                         
                         <select name="projectSubType" onChange={(e)=>this.changeHandler('projectSubType',e)} ref="projectSubType" className="form-control">
+                        <option value="">--- Select ---</option>
                          {this.state.projectSubType==='Invalid tenant, please contact system admin'?
                             <option>No Data found</option>:
                             this.state.projectSubType.map((curr,index)=>{
@@ -407,12 +450,15 @@ class Projectdetail extends Component{
                          }   
                         
                         </select>
+                        <span style={errorstyle}>{this.state.errors["projectSubType"]}</span>
                         </div>
                     </div>
                     <div className="col-sm-4">
                         <div className="form-group">
                         <label>Project Category</label> 
-                        <select name="projectCategory" onChange={(e)=>this.changeHandler('projectCategory',e)} ref="projectCategory" className="form-control">
+                        <select name="projectCategory"  onChange={(e)=>this.changeHandler('projectCategory',e)} ref="projectCategory" className="form-control">
+                        <option value="">--- Select ---</option>
+                       
                             {this.state.projectCategory==='Invalid tenant, please contact system admin'?
                             <option>No Data found</option>:
                             this.state.projectCategory.map((curr,index)=>{
@@ -430,30 +476,35 @@ class Projectdetail extends Component{
                          
                         
                         </select>
+                        <span style={errorstyle}>{this.state.errors["projectCategory"]}</span>
                         </div>
                     </div>
                     <div className="col-sm-4">
                         <div className="form-group">
                         <label>Reference</label> 
                         <input type="text"  value={this.state.detailuser.referredBy}            name="referredBy" ref="referredBy" onChange={(e)=>this.changeHandler('referredBy',e)} className="form-control"/>
+                        <span style={errorstyle}>{this.state.errors["referredBy"]}</span>
                         </div>
                     </div>
                     <div className="col-sm-4">
                         <div className="form-group">
                         <label>Area (in.Sq.Ft.)</label> 
                         <input type="number" name="area"  onChange={(e)=>this.changeHandler('area',e)} ref="area" value={this.state.detailuser.area} className="form-control"/>
+                        <span style={errorstyle}>{this.state.errors["area"]}</span>
                         </div>
                     </div>
                     <div className="col-sm-4">
                         <div className="form-group">
                         <label>Value(Enquiry)</label> 
                             <input type="number" name="enquiryValue"  onChange={(e)=>this.changeHandler('enquiryValue',e)} ref="enquiryValue" value={this.state.detailuser.enquiryValue} className="form-control"/>
+                            <span style={errorstyle}>{this.state.errors["enquiryValue"]}</span>
                         </div>
                     </div>
                     <div className="col-sm-4">
                         <div className="form-group">
                         <label>Design Fee(Enquiry)</label> 
                         <input type="number" name="enquiryDesignFee" ref="enquiryDesignFee" value={this.state.detailuser.enquiryDesignFee} onChange={(e)=>this.changeHandler('enquiryDesignFee',e)} className="form-control"/>
+                        <span style={errorstyle}>{this.state.errors["enquiryDesignFee"]}</span>
                         </div>
                     </div>
                     </div>

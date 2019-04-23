@@ -109,7 +109,7 @@ export default class Projecttracker extends Component {
         this.setState({
           msgerror:'Actual CompletionDate mandatory'
         })
-      }else if(this.refs.jobStatus.value===""){
+      }else if(projecttrack.jobStatus===""){
         this.setState({
           msgerror:'Job Status mandatory'
         })
@@ -155,7 +155,7 @@ export default class Projecttracker extends Component {
 
   render() {
    
-      console.log(this.state.projecttrack)
+      //console.log(this.state.projecttrack)
       let appointmentDatenew,lostDatenew,projectStartDatenew,projectHoldDatenew,targetDatenew,actualCompletionDatenew=null;
       let {appointmentDate,lostDate,projectStartDate,projectHoldDate,targetDate,actualCompletionDate}= this.state.projecttrack;
       if(appointmentDate!==null){
@@ -264,6 +264,7 @@ export default class Projecttracker extends Component {
         <div className="form-group">
           <label>Job Status</label> 
           <select name="jobStatus" ref="jobStatus" className="form-control" onChange={(e)=>this.tarckonChange('jobStatus',e)}>
+          <option value="">--select--</option>
           {this.state.jobStatus==='Invalid tenant, please contact system admin'?
                             <option>No Data found</option>:
                             this.state.jobStatus.map((curr,index)=>{
