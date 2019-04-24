@@ -76,10 +76,10 @@ export default class Sitedetail extends Component {
       Ischeckvalid=false;
       errors['country']="Enter only character";
     }
-    if (getsatedata.area === ""||getsatedata.area===null) {
-      Ischeckvalid=false;
-      errors['area']="enter area";
-    }
+    // if (getsatedata.area === ""||getsatedata.area===null) {
+    //   Ischeckvalid=false;
+    //   errors['area']="enter area";
+    // }
     
     this.setState({
       errors:errors
@@ -171,11 +171,11 @@ export default class Sitedetail extends Component {
             <input type="text" value={this.state.siteform.site.country||''}  className="form-control" name="country" ref="country" onChange={(e)=>this.siteonchange('country',e)}/>
             <span style={errorstyle}>{this.state.errors["country"]}</span>
           </div>
-          <div className="col-sm-4 form-group">
+          {/* <div className="col-sm-4 form-group">
             <label>Area (in Sq. Feet)</label>
             <input type="number" className="form-control"  onChange={(e)=>this.siteonchange('area',e)} name="area" ref="area" value={this.state.siteform.site.area||''}/>
             <span style={errorstyle}>{this.state.errors["area"]}</span>
-          </div>
+          </div> */}
         </div>
         <div className="row mgtop">
           <div className="col-md-12">

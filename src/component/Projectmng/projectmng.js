@@ -23,21 +23,30 @@ import Addproject from './addprojectmodel';
    }
 
    getdetail=(e)=>{
+
     let statedata=this.state.formsearchval;
-    (async () => {
-      const rawResponse = await fetch('http://taskmanagement.lpipl.com/index.php/api/searchProject', {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({"projectName":statedata,"pageSize":'20',"pageNumber":"1"} )
-      });
-      const content = await rawResponse.json();
-      this.setState({
-        projects:content.projects
-      })
-    })();
+    if(this.refs.searchform.value=="" || this.refs.searchform.value==null){
+      this.refs.errorform.innerHTML="Please Enter Project Name";
+      return false;
+    }
+    else{
+      this.refs.errorform.innerHTML="";
+      (async () => {
+        const rawResponse = await fetch('http://taskmanagement.lpipl.com/index.php/api/searchProject', {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({"projectName":statedata,"pageSize":'20',"pageNumber":"1"} )
+        });
+        const content = await rawResponse.json();
+        this.setState({
+          projects:content.projects
+        })
+      })();
+    }
+    
 
    }
 
@@ -76,10 +85,14 @@ handlehide=()=>{
                   <div className="col-md-6">
                     <div className="navbar-form navbar-left" role="search">
                     <div className="form-group">
-                      <input type="text" className="form-control" onChange={this.formsearch} name="searchform" placeholder="Search..." style={{"border":'1px solid ##337ab7'}}/>
+                      <input type="text" ref="searchform" className="form-control" onChange={this.formsearch} name="searchform" placeholder="Search..." style={{"border":'1px solid ##337ab7'}}/>
+                      
                     </div>
                       <button type="button" className="btn btn-default" onClick={(e)=>this.getdetail(e)}>Get Detail</button>
+                     
                     </div>
+                    <span ref="errorform" style={{color:'red'}} className="col-xs-12"></span>
+                    
                   </div>
                   <div style={{clear:'both'}}></div>
                     {this.state.projects.length!==0? <Tableview viewpart={this.veiwrender} data={this.state.projects}/>:<div>Please search ...</div>}

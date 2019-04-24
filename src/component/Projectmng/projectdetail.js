@@ -26,15 +26,19 @@ class Projectdetail extends Component{
         var feName=this.state.detailuser;
         let errors={};
         let isvalidform=true;
-        if (feName.projectName === "") {
+        if (feName.projectName === "" || feName.projectName==null) {
             isvalidform=false;
             errors['projectName']="Enter a name";
         }
-        if (!/^[a-zA-Z]*$/g.test(feName.projectName)) {
-            isvalidform=false;
-            errors['projectName']="Enter a only Character";
+        // if(typeof(this.refs.projectName.value)!=='string'){
+        //     isvalidform=false;
+        //     errors['projectName']="Enter a only Character";
+        // }
+        // if (!/^[a-zA-Z]*$/g.test(feName.projectName)) {
+        //     isvalidform=false;
+        //     errors['projectName']="Enter a only Character";
            
-        }   
+        // }   
        
 
         if(feName.enquiryDate===" 00:00:00"){
@@ -70,7 +74,7 @@ class Projectdetail extends Component{
             isvalidform=false;
             errors['projectCategory']="Select Project Category";
         }
-        if (feName.referredBy === "") {
+        if (feName.referredBy === ""||feName.referredBy==null ) {
             isvalidform=false;
             errors['referredBy']="Enter a referred Name";
         }
@@ -79,15 +83,15 @@ class Projectdetail extends Component{
             errors['referredBy']="Enter a only Character";
            
         }  
-        if (feName.area === "") {
+        if (feName.area === ""||feName.area==null ) {
             isvalidform=false;
             errors['area']="Enter a area";
         }
-        if (feName.enquiryValue === "") {
+        if (feName.enquiryValue === ""|| feName.enquiryValue==null) {
             isvalidform=false;
             errors['area']="Enter a Enquiry Value";
         }
-        if (feName.enquiryDesignFee === "") {
+        if (feName.enquiryDesignFee == ""||feName.enquiryDesignFee == null) {
             isvalidform=false;
             errors['enquiryDesignFee']="Enter a Enquiry DesignFee";
         }
@@ -311,13 +315,13 @@ class Projectdetail extends Component{
                     <div className="col-sm-4">
                         <div className="form-group">
                         <label>Project</label> 
-                        <input type="text" name="projectCode" onChange={(e)=>this.changeHandler('projectCode',e)} ref="projectCode" placeholder="VP/123/2019" disabled="disabled" value={this.state.detailuser.projectCode} className="form-control"/> 
+                        <input type="text" name="projectCode" onChange={(e)=>this.changeHandler('projectCode',e)} ref="projectCode" placeholder="VP/123/2019" disabled="disabled" value={this.state.detailuser.projectCode||""} className="form-control"/> 
                         </div>
                     </div>
                     <div className="col-sm-4">
                         <div className="form-group">
                         <label>Project Name</label> 
-                            <input type="text"  name="projectName" className="form-control" ref="projectName" onChange={(e)=>this.changeHandler('projectName',e)} value={this.state.detailuser.projectName}/> 
+                            <input type="text"  name="projectName" className="form-control" ref="projectName" onChange={(e)=>this.changeHandler('projectName',e)} value={this.state.detailuser.projectName||""}/> 
                             <span style={errorstyle}>{this.state.errors["projectName"]}</span>
                         </div>
                     </div>
@@ -482,7 +486,7 @@ class Projectdetail extends Component{
                     <div className="col-sm-4">
                         <div className="form-group">
                         <label>Reference</label> 
-                        <input type="text"  value={this.state.detailuser.referredBy}            name="referredBy" ref="referredBy" onChange={(e)=>this.changeHandler('referredBy',e)} className="form-control"/>
+                        <input type="text"  value={this.state.detailuser.referredBy||""}            name="referredBy" ref="referredBy" onChange={(e)=>this.changeHandler('referredBy',e)} className="form-control"/>
                         <span style={errorstyle}>{this.state.errors["referredBy"]}</span>
                         </div>
                     </div>
@@ -496,14 +500,14 @@ class Projectdetail extends Component{
                     <div className="col-sm-4">
                         <div className="form-group">
                         <label>Value(Enquiry)</label> 
-                            <input type="number" name="enquiryValue"  onChange={(e)=>this.changeHandler('enquiryValue',e)} ref="enquiryValue" value={this.state.detailuser.enquiryValue} className="form-control"/>
+                            <input type="number" name="enquiryValue"  onChange={(e)=>this.changeHandler('enquiryValue',e)} ref="enquiryValue" value={this.state.detailuser.enquiryValue || ""} className="form-control"/>
                             <span style={errorstyle}>{this.state.errors["enquiryValue"]}</span>
                         </div>
                     </div>
                     <div className="col-sm-4">
                         <div className="form-group">
                         <label>Design Fee(Enquiry)</label> 
-                        <input type="number" name="enquiryDesignFee" ref="enquiryDesignFee" value={this.state.detailuser.enquiryDesignFee} onChange={(e)=>this.changeHandler('enquiryDesignFee',e)} className="form-control"/>
+                        <input type="number" name="enquiryDesignFee" ref="enquiryDesignFee" value={this.state.detailuser.enquiryDesignFee||""} onChange={(e)=>this.changeHandler('enquiryDesignFee',e)} className="form-control"/>
                         <span style={errorstyle}>{this.state.errors["enquiryDesignFee"]}</span>
                         </div>
                     </div>
@@ -516,7 +520,7 @@ class Projectdetail extends Component{
                         <div className="form-group">
                         <button type="button" userdetail={this.state.detailuser} onClick={this.nextTab} className="btn btn-default fix-button" style={{marginRight:'8px'}} >Continue</button>
                         {/* onClick={(e)=>this.props.tabchange(e,'Project Tracker')} */}
-                        <button type="button" className="btn btn-default fix-button clr-new">Close</button>
+                        {/* <button type="button" className="btn btn-default fix-button clr-new">Close</button> */}
                         </div>
                     </div>
                     </div>
